@@ -1,0 +1,20 @@
+<?php
+return[
+    [
+        "title"=> "Dashboard",
+        "icon"=>"nav-icon fas fa-tachometer-alt",
+        "route"=>"dashboard.index",
+    ],
+    [
+        "title"=> "Categories",
+        "icon"=>"nav-icon fas fa-list",
+        "route"=>"categories.index",
+        // "ability"=>"categories.view"
+    ],
+    [
+        "title"=> "Tags",
+        "icon"=>"nav-icon fas fa-list",
+        "route"=>"tags.index",
+    ],
+   
+];
