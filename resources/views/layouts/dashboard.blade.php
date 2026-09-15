@@ -39,7 +39,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Right navbar links -->
     
 <!-- Right navbar links -->
-<ul class="navbar-nav ml-auto">
+{{-- <ul class="navbar-nav ml-auto">
 
     <li class="nav-item dropdown">
 
@@ -73,7 +73,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     </li>
 
-</ul>
+</ul> --}}
+
 
 
     {{-- <ul class="navbar-nav ml-auto">

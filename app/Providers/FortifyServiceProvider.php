@@ -14,6 +14,10 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
 use Laravel\Fortify\Fortify;
+// use Laravel\Fortify\Http\Responses\LoginResponse;
+// استدعاء الواجهات (Interfaces) الخاصة بالاستجابة في فورتيفاي
+use Laravel\Fortify\Contracts\LoginResponse;
+use Laravel\Fortify\Contracts\RegisterResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -69,5 +73,24 @@ class FortifyServiceProvider extends ServiceProvider
         }else{
             Fortify::viewPrefix('front.auth.');
         }
+        ////
+        $this->app->instance(LoginResponse::class, new class implements LoginResponse {
+            public function toResponse($request) {
+                // إذا كان الطلب قادم من مسارات الأدمن (احتياطاً) أو الحارس هو أدمن
+                if (Config::get('fortify.guard') == 'admin') {
+                    return redirect('/admin/dashboard/index');
+                }
+                // المسار المخصص للمستخدم العادي بعد تسجيل الدخول
+                return redirect('/user/dashboard'); 
+            }
+        });
+
+        // 2. تحديد مسار المستخدم العادي بعد إنشاء حساب جديد (Register)
+        $this->app->instance(RegisterResponse::class, new class implements RegisterResponse {
+            public function toResponse($request) {
+                // هنا تضع المسار المختلف تماماً الذي تريده للمستخدم بعد التسجيل لأول مرة
+                return redirect('/categories/index'); 
+            }
+        });
     }
 }

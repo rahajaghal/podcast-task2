@@ -48,4 +48,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
+    public function channel()
+    {
+        return $this->hasOne(Channel::class);
+    }
 }
