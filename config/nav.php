@@ -16,5 +16,15 @@ return[
         "icon"=>"nav-icon fas fa-list",
         "route"=>"tags.index",
     ],
+    [
+        "title"=> "Channels",
+        "icon"=>"nav-icon fas fa-list",
+        "route"=>"show.not-approved.channels",
+    ],
+    [
+        "title"=> "Podcasts",
+        "icon"=>"nav-icon fas fa-list",
+        "route"=>"show.not-approved.podcasts",
+    ],
    
 ];

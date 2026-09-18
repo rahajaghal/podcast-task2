@@ -23,6 +23,9 @@
           href="{{ asset('dashboard/dist/css/adminlte.min.css') }}">
 
     @stack('styles')
+
+
+
 </head>
 
 <body >
@@ -89,11 +92,11 @@
 
 
                     <li class="nav-item">
-                        <a href="#about"
+                        <a href="{{ route('channel.index') }}"
                            class="nav-link">
 
                             <i class="fas fa-info-circle mr-1"></i>
-                            About
+                            My Channel
 
                         </a>
                     </li>
@@ -113,97 +116,54 @@
 
 
                 <!-- Right menu -->
+                {{-- <!-- Right navbar links -->
                 <ul class="navbar-nav ml-auto">
 
-                    @auth
+                <!-- User Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link d-flex align-items-center" data-toggle="dropdown" href="#">
+                        <span class="badge badge-primary p-2 rounded-circle mr-2">
+                            <i class="fas fa-user"></i>
+                        </span>
+                        {{ Auth::user()->name }}
+                    </a>
 
-                        <!-- User -->
-                        <li class="nav-item dropdown">
+                    <div class="dropdown-menu dropdown-menu-right">
 
-                            <a class="nav-link"
-                               href="#"
-                               id="userDropdown"
-                               role="button"
-                               data-toggle="dropdown"
-                               aria-haspopup="true"
-                               aria-expanded="false">
+                    <!-- Logout -->
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button class="dropdown-item text-danger">
+                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                        </button>
+                    </form>
 
-                                <i class="fas fa-user-circle mr-1"></i>
+                    </div>
+                </li>
 
-                                {{ Auth::user()->name }}
+                </ul> --}}
 
-                                <i class="fas fa-angle-down ml-1"></i>
-
-                            </a>
-
-
-                            <div class="dropdown-menu dropdown-menu-right"
-                                 aria-labelledby="userDropdown">
-
-                                <!-- Dashboard -->
-                                <a href="{{ route('dashboard.index') }}"
-                                   class="dropdown-item">
-
-                                    <i class="fas fa-tachometer-alt mr-2"></i>
-                                    Dashboard
-
-                                </a>
-
-
-                                <div class="dropdown-divider"></div>
-
-
-                                <!-- Logout -->
-                                <form method="POST"
-                                      action="{{ route('logout') }}">
-
-                                    @csrf
-
-                                    <button type="submit"
-                                            class="dropdown-item text-danger">
-
-                                        <i class="fas fa-sign-out-alt mr-2"></i>
-                                        Logout
-
-                                    </button>
-
-                                </form>
-
-                            </div>
-
-                        </li>
-
-                    @else
-
-                        <!-- Login -->
-                        <li class="nav-item">
-
-                            <a href="{{ route('login') }}"
-                               class="nav-link">
-
-                                <i class="fas fa-sign-in-alt mr-1"></i>
-                                Login
-
-                            </a>
-
-                        </li>
-
-
-                        <!-- Register -->
-                        <li class="nav-item">
-
-                            <a href="{{ route('register') }}"
-                               class="btn btn-primary ml-2">
-
-                                <i class="fas fa-user-plus mr-1"></i>
-                                Register
-
-                            </a>
-
-                        </li>
-
-                    @endauth
-
+                <!-- Right navbar links --> 
+                <ul class="navbar-nav ml-auto"> 
+                    @auth 
+                    <li class="nav-item"> 
+                        <details class="user-dropdown"> 
+                            <!-- User Name --> 
+                            <summary class="nav-link user-dropdown-button"> 
+                                <span class="user-icon"> <i class="fas fa-user"></i> </span> 
+                                {{ Auth::user()->name }} 
+                                    <i class="fas fa-angle-down ml-2"></i> 
+                            </summary> 
+                            <!-- Dropdown --> 
+                            <div class="user-dropdown-menu"> 
+                                <form method="POST" action="{{ route('logout') }}"> 
+                                    @csrf 
+                                    <button type="submit" class="logout-button"> <i class="fas fa-sign-out-alt mr-2"></i> Logout </button> 
+                                </form> 
+                            </div> 
+                        </details> 
+                    </li> 
+                    @endauth 
                 </ul>
 
             </div>
@@ -422,6 +382,20 @@
         margin-left: auto;
         margin-right: auto;
     }
+
+    /*  */
+
+    .user-dropdown { position: relative; }
+     /* Remove default arrow */ 
+     .user-dropdown summary { list-style: none; } 
+     .user-dropdown summary::-webkit-details-marker { display: none; } 
+     /* User name button */ 
+     .user-dropdown-button { display: flex; align-items: center; cursor: pointer; color: #6c757d; padding: 6px 10px !important; user-select: none; } 
+     .user-dropdown-button:hover { color: #343a40; } /* User icon */ 
+     .user-icon { width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; margin-right: 8px; border-radius: 50%; background: #007bff; color: white; font-size: 14px; } /* Dropdown */ 
+     .user-dropdown-menu { position: absolute; top: calc(100% + 5px); right: 0; z-index: 1050; min-width: 160px; padding: 5px 0; background: white; border: 1px solid #ddd; border-radius: 5px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); } /* Logout button */ 
+     .logout-button { display: flex; align-items: center; width: 100%; padding: 10px 16px; border: none; background: transparent; color: #dc3545; font-size: 14px; text-align: left; cursor: pointer; } 
+     .logout-button:hover { background: #f8f9fa; color: #c82333; }
 </style>
 
 </body>

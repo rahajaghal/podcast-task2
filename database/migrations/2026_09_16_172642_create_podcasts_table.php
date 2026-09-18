@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('channels', function (Blueprint $table) {
+        Schema::create('podcasts', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('image');
-            $table->string('description');
+            $table->string('title');
+            $table->string('podcast');
+            $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
+            $table->foreignId('channel_id')->constrained('channels')->cascadeOnDelete();
+            $table->float('size');
             $table->boolean('approved')->default(0);
-            $table->foreignId('user_id')->unique()->constrained('users')->cascadeOnDelete();
+            $table->boolean('reported')->default(0);
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('channels');
+        Schema::dropIfExists('podcasts');
     }
 };

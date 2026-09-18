@@ -11,4 +11,7 @@ class Category extends Model
     {
         return $this->belongsToMany(User::class);
     }
+    public function podcasts(){
+        return $this->hasMany(Podcast::class);
+    }
 }

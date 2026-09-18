@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Dashboard\CategoriesController;
+use App\Http\Controllers\Dashboard\ChannelController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\PodcastsController;
 use App\Http\Controllers\Dashboard\TagsController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +28,14 @@ Route::group([
     Route::get('/tags/edit/{id}',[TagsController::class,'edit'])->name('tags.edit');
     Route::put('/tags/update/{id}',[TagsController::class,'update'])->name('tags.update');
     Route::delete('/tags/destroy/{id}',[TagsController::class,'destroy'])->name('tags.destroy');
+
+    Route::get('/show/unapproved/channels',[ChannelController::class,'notApproved'])->name('show.not-approved.channels');
+    Route::get('/approve/channel/{channel_id}',[ChannelController::class,'approve'])->name('approve.channel');
+    Route::delete('/delete/channel/{channel_id}',[ChannelController::class,'delete'])->name('delete.channel');
+
+    Route::get('/show/unapproved/podcasts',[PodcastsController::class,'unapproved'])->name('show.not-approved.podcasts');
+    Route::get('/approves/podcast/{podcast_id}',[PodcastsController::class,'approve'])->name('approve.podcasts');
+    Route::delete('/admin/delete/podcast/{podcast_id}',[PodcastsController::class,'adminDelete'])->name('podcast.delete');
 });
 // Route::get("/dashboard/index",[DashboardController::class,"index"])->name('dashboard.index');
 

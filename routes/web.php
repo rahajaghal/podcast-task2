@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Front\CategoriesController;
+use App\Http\Controllers\Front\ChannelController;
+use App\Http\Controllers\Front\PodcastController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,7 +16,9 @@ Route::get('/', function () {
 // })->middleware(['auth', 'verified']);
 
 Route::get('/user/dashboard', function () {
-    return view('dashboard');
+    // return view('dashboard');
+    return view('front.pages.index');
+    
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -27,6 +31,25 @@ Route::middleware('auth')->group(function () {
         [CategoriesController::class, 'selectUserContents']
     )->name('categories.select');
 
+    Route::get('/channel/index',
+    [ChannelController::class,'userChannel']
+    )->name('channel.index');
+
+    // Route::get('/channel',
+    //     [ChannelController::class, 'index']
+    // )->name('channel.index');
+
+    Route::get('/channel/create',
+        [ChannelController::class, 'create']
+    )->name('channel.create');
+
+    Route::post('/channel/store',
+        [ChannelController::class, 'store']
+    )->name('channel.store');
+
+    Route::get('/podcast/create',[PodcastController::class,'create'])->name('podcasts.create');
+    Route::post('/podcast/store',[PodcastController::class,'store'])->name('podcasts.store');
+    Route::delete('/delete/podcast/{podcast_id}',[PodcastController::class,'delete'])->name('podcasts.delete');
 });
 
 Route::middleware('auth')->group(function () {
