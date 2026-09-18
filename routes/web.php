@@ -50,8 +50,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/podcast/create',[PodcastController::class,'create'])->name('podcasts.create');
     Route::post('/podcast/store',[PodcastController::class,'store'])->name('podcasts.store');
     Route::delete('/delete/podcast/{podcast_id}',[PodcastController::class,'delete'])->name('podcasts.delete');
-});
+    Route::get('/podcasts/index',[PodcastController::class,'index'])->name('podcasts.index');
+    Route::get('/show/podcast/{id}',[PodcastController::class,'showPodcast'])->name('podcast.show');
 
+    Route::post('/podcast/{id}/favorite',[PodcastController::class, 'favorite'])->name('podcast.favorite');
+    Route::post('/podcast/{id}/rate',[PodcastController::class, 'rate'])->name('podcast.rate');
+    
+});
+Route::get('/show/podcasts/based/tag/{tag_id}','tagPodcasts');
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

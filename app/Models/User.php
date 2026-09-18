@@ -56,4 +56,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(Channel::class);
     }
+    public function podcast()
+    {
+        return $this->belongsToMany(Podcast::class,'favourites','user_id','podcast_id');
+    }
 }

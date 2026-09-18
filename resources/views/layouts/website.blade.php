@@ -81,7 +81,7 @@
 
 
                     <li class="nav-item">
-                        <a href="#podcasts"
+                        <a href="{{ route('podcasts.index') }}"
                            class="nav-link">
 
                             <i class="fas fa-microphone mr-1"></i>

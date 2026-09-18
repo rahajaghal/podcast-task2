@@ -19,4 +19,12 @@ class Podcast extends Model
     {
         return $this->belongsToMany(Tag::class);
     }
+    public function favourites()
+    {
+        return $this->hasMany(Favourite::class,'podcast_id');
+    }
+    public function ratings()
+{
+    return $this->hasMany(Rating::class);
+}
 }

@@ -5,14 +5,48 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PodcastRequest;
 use App\Models\Category;
+use App\Models\CategoryUser;
 use App\Models\Channel;
+use App\Models\Favourite;
 use App\Models\Podcast;
+use App\Models\PodcastTag;
+use App\Models\Rating;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class PodcastController extends Controller
 {
+    public function rate(Request $request, $id)
+    {
+        $request->validate([
+            'rating' => [
+                'required',
+                'numeric',
+                'min:1',
+                'max:5',
+            ],
+        ]);
+
+        $podcast = Podcast::where('id', $id)
+            ->where('approved', 1)
+            ->firstOrFail();
+
+        Rating::updateOrCreate(
+            [
+                'user_id' => auth()->id(),
+                'podcast_id' => $podcast->id,
+            ],
+            [
+                'rating' => $request->rating,
+            ]
+        );
+
+        return back()->with(
+            'success',
+            'Your rating has been saved.'
+        );
+    }
     public function create(){
         // return view('front.pages.podcasts.create');
         $user = auth()->user();
@@ -28,8 +62,9 @@ class PodcastController extends Controller
             compact( 'categories', 'tags')
         );
     }
-    public function store(PodcastRequest $request){
-        // Get the authenticated user's channel
+    public function store(PodcastRequest $request)
+    {
+        // Get authenticated user's channel
         $channel = Channel::where(
             'user_id',
             auth()->id()
@@ -52,39 +87,40 @@ class PodcastController extends Controller
         $file = $request->file('podcast');
 
 
-        // Store podcast using Laravel's default public disk
-        $fileName = $file->getClientOriginalName();
-
-        $path = $file->storeAs(
+        // Store podcast on public disk
+        $path = $file->store(
             'podcasts',
-            $fileName,
             'public'
         );
 
 
-        // Get validated form data
+        // Get validated data
         $data = $request->validated();
 
 
-        // Add uploaded file path
+        // Podcast file path
         $data['podcast'] = $path;
 
 
-        // Automatically assign the authenticated user's channel
+        // Automatically assign channel
         $data['channel_id'] = $channel->id;
-        $data['size']=$request->file('podcast')->getSize()/1024/1024;
+
+
+        // File size in MB
+        $data['size'] =
+            $file->getSize() / 1024 / 1024;
+
 
         // Create podcast
         $podcast = Podcast::create($data);
 
 
-        // Attach selected tags
+        // Attach tags
         if ($request->filled('tags')) {
 
             $podcast->tags()->attach(
                 $request->input('tags')
             );
-
         }
 
 
@@ -94,7 +130,7 @@ class PodcastController extends Controller
                 'success',
                 'Your podcast was created successfully.'
             );
-        }
+    }
     public function delete($podcast_id)
     {
         $podcast = Podcast::findOrFail($podcast_id);
@@ -128,4 +164,185 @@ class PodcastController extends Controller
             ->route('channel.index')
             ->with('success', 'Podcast deleted successfully.');
     }
+    public function index(Request $request)
+    {
+        $user = auth()->user();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Get categories selected by the logged-in user
+        |--------------------------------------------------------------------------
+        */
+
+        $categories = $user->categories;
+
+        $categoryIds = $categories
+            ->pluck('id')
+            ->toArray();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Podcasts query
+        |--------------------------------------------------------------------------
+        */
+
+        $podcastsQuery = Podcast::query()
+            ->where('approved', 1)
+            ->with(['channel', 'category']);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Search by podcast title
+        |--------------------------------------------------------------------------
+        */
+
+        if ($request->filled('search')) {
+
+            $search = $request->input('search');
+
+            $podcastsQuery->where(
+                'title',
+                'like',
+                '%' . $search . '%'
+            );
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Filter by category
+        |--------------------------------------------------------------------------
+        */
+
+        if ($request->filled('categoryId')) {
+
+            $categoryId = $request->input('categoryId');
+
+            /*
+            |--------------------------------------------------------------------------
+            | Make sure the category was selected by this user
+            |--------------------------------------------------------------------------
+            */
+
+            if (in_array($categoryId, $categoryIds)) {
+
+                $podcastsQuery->where(
+                    'category_id',
+                    $categoryId
+                );
+
+            } else {
+
+                /*
+                |--------------------------------------------------------------------------
+                | Category does not belong to user's selected categories
+                |--------------------------------------------------------------------------
+                */
+
+                $podcastsQuery->whereRaw('1 = 0');
+            }
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Get podcasts
+        |--------------------------------------------------------------------------
+        */
+
+        $podcasts = $podcastsQuery
+            ->latest()
+            ->get();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Return website page
+        |--------------------------------------------------------------------------
+        */
+
+        return view(
+            'front.pages.podcasts.index',
+            compact(
+                'categories',
+                'podcasts'
+            )
+        );
+    }
+    public function showPodcast($id)
+    {
+        $podcast = Podcast::with([
+            'channel',
+            'category',
+            'tags',
+        ])
+        ->withAvg('ratings', 'rating')
+        ->withCount('ratings')
+        ->where('id', $id)
+        ->where('approved', 1)
+        ->firstOrFail();
+
+        // Current user's rating
+        $userRating = Rating::where('user_id', auth()->id())
+            ->where('podcast_id', $podcast->id)
+            ->first();
+
+        // Check if current user already added this podcast to favourites
+        $isFavourite = Favourite::where('user_id', auth()->id())
+            ->where('podcast_id', $podcast->id)
+            ->exists();
+
+        return view(
+            'front.pages.podcasts.show',
+            compact(
+                'podcast',
+                'userRating',
+                'isFavourite'
+            )
+        );
+    }
+    public function favorite($id)
+    {
+        $podcast = Podcast::where('id', $id)
+            ->where('approved', 1)
+            ->firstOrFail();
+
+        $favourite = Favourite::where('user_id', auth()->id())
+            ->where('podcast_id', $podcast->id)
+            ->first();
+
+        if ($favourite) {
+
+            $favourite->delete();
+
+            return back()->with(
+                'success',
+                'Podcast removed from favorites.'
+            );
+        }
+
+        Favourite::create([
+            'user_id' => auth()->id(),
+            'podcast_id' => $podcast->id,
+        ]);
+
+        return back()->with(
+            'success',
+            'Podcast added to favorites.'
+        );
+    }
+    public function tagPodcasts($tag_id)
+    {
+        $podcastsIds=PodcastTag::where('tag_id',$tag_id)->pluck('podcast_id');
+        $podcasts=Podcast::whereIn('id',$podcastsIds)->where('approved',1)->get();
+        if ($podcasts){
+            return ApiResponse::sendResponse(200,'Podcast Retrieved Successfully',
+                PodcastResource::collection($podcasts));
+        }
+        return ApiResponse::sendResponse(200,'Podcast Not Retrieved Successfully', []);
+    }
+
+    
 }
