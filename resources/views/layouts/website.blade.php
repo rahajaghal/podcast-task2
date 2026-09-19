@@ -103,11 +103,11 @@
 
 
                     <li class="nav-item">
-                        <a href="#contact"
+                        <a href="{{ route('podcasts.favourite') }}"
                            class="nav-link">
 
                             <i class="fas fa-envelope mr-1"></i>
-                            Contact
+                            Favourites
 
                         </a>
                     </li>

@@ -11,19 +11,20 @@ class ChannelController extends Controller
 {
     public function userChannel()
     {
-        // $user = Auth::user();
-        // $channel = $user->channel;
-        // // $channelPodacasts = $channel->podcasts;
-        // $channelPodacasts = $channel
-        // ? $channel->podcasts
-        // : collect();
-        // return view( 'front.pages.channels.index', compact('channel','channelPodacasts'));
         $user = Auth::user();
 
         $channel = $user->channel;
 
         $channelPodacasts = $channel
-            ? $channel->podcasts()->where('approved', 1)->latest()->get()
+            ? $channel->podcasts()
+                ->where('approved', 1)
+                ->with([
+                    'category',
+                ])
+                ->withAvg('ratings', 'rating')
+                ->withCount('ratings')
+                ->latest()
+                ->get()
             : collect();
 
         return view(

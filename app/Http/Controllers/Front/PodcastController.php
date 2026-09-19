@@ -189,7 +189,12 @@ class PodcastController extends Controller
 
         $podcastsQuery = Podcast::query()
             ->where('approved', 1)
-            ->with(['channel', 'category']);
+            ->with([
+                'channel',
+                'category',
+            ])
+            ->withAvg('ratings', 'rating')
+            ->withCount('ratings');
 
 
         /*
@@ -222,7 +227,7 @@ class PodcastController extends Controller
 
             /*
             |--------------------------------------------------------------------------
-            | Make sure the category was selected by this user
+            | Make sure the category belongs to user's selected categories
             |--------------------------------------------------------------------------
             */
 
@@ -335,14 +340,59 @@ class PodcastController extends Controller
     }
     public function tagPodcasts($tag_id)
     {
-        $podcastsIds=PodcastTag::where('tag_id',$tag_id)->pluck('podcast_id');
-        $podcasts=Podcast::whereIn('id',$podcastsIds)->where('approved',1)->get();
-        if ($podcasts){
-            return ApiResponse::sendResponse(200,'Podcast Retrieved Successfully',
-                PodcastResource::collection($podcasts));
-        }
-        return ApiResponse::sendResponse(200,'Podcast Not Retrieved Successfully', []);
+        $tag = Tag::findOrFail($tag_id);
+
+        $podcastIds = PodcastTag::where('tag_id', $tag_id)
+            ->pluck('podcast_id');
+
+        $podcasts = Podcast::with([
+            'channel',
+            'category',
+        ])
+        ->withAvg('ratings', 'rating')
+        ->withCount('ratings')
+        ->whereIn('id', $podcastIds)
+        ->where('approved', 1)
+        ->latest()
+        ->get();
+
+        return view(
+            'front.pages.podcasts.tag',
+            compact('podcasts', 'tag')
+        );
     }
+    public function favouritePodcasts()
+{
+    $user = auth()->user();
+
+    $podcasts = Podcast::whereHas('favourites', function ($query) use ($user) {
+        $query->where('user_id', $user->id);
+    })
+    ->where('approved', 1)
+    ->with([
+        'channel',
+        'category',
+    ])
+    ->withAvg('ratings', 'rating')
+    ->withCount('ratings')
+    ->latest()
+    ->get();
+
+    return view(
+        'front.pages.podcasts.favourites',
+        compact('podcasts')
+    );
+}
+    // public function tagPodcasts($tag_id)
+    // {
+    //     $podcastsIds=PodcastTag::where('tag_id',$tag_id)->pluck('podcast_id');
+    //     $podcasts=Podcast::whereIn('id',$podcastsIds)->where('approved',1)->get();
+    //     if ($podcasts){
+    //         return ApiResponse::sendResponse(200,'Podcast Retrieved Successfully',
+    //             PodcastResource::collection($podcasts));
+    //     }
+    //     return ApiResponse::sendResponse(200,'Podcast Not Retrieved Successfully', []);
+    // }
 
     
 }

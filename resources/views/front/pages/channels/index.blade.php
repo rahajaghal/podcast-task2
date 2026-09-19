@@ -435,6 +435,12 @@
 
     display:
         block;
+
+    text-decoration:
+        none;
+
+    color:
+        inherit;
 }
 
 .podcast-card:hover {
@@ -443,6 +449,12 @@
 
     box-shadow:
         0 15px 40px rgba(76, 29, 149, 0.13);
+
+    text-decoration:
+        none;
+
+    color:
+        inherit;
 }
 
 
@@ -462,6 +474,9 @@
 
     background:
         #f3f0ff;
+
+    position:
+        relative;
 }
 
 .podcast-image {
@@ -488,6 +503,77 @@
 
 
 /* =========================================================
+   PLAY OVERLAY
+========================================================= */
+
+.podcast-play-overlay {
+    position:
+        absolute;
+
+    inset:
+        0;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    background:
+        rgba(0, 0, 0, 0.10);
+
+    opacity:
+        0;
+
+    transition:
+        opacity 0.2s ease;
+}
+
+.podcast-card:hover .podcast-play-overlay {
+    opacity:
+        1;
+}
+
+.podcast-play-button {
+    width:
+        52px;
+
+    height:
+        52px;
+
+    border-radius:
+        50%;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    background:
+        #6d28d9;
+
+    color:
+        #ffffff;
+
+    font-size:
+        18px;
+
+    padding-left:
+        3px;
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, .25);
+}
+
+
+/* =========================================================
    PODCAST INFO
 ========================================================= */
 
@@ -495,6 +581,11 @@
     padding:
         16px 18px 20px;
 }
+
+
+/* =========================================================
+   PODCAST TITLE
+========================================================= */
 
 .podcast-title {
     margin:
@@ -517,6 +608,154 @@
 
     text-overflow:
         ellipsis;
+}
+
+
+/* =========================================================
+   PODCAST META ROW
+========================================================= */
+
+.podcast-meta-row {
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        8px;
+
+    margin-top:
+        12px;
+
+    min-width:
+        0;
+}
+
+
+/* =========================================================
+   CATEGORY
+========================================================= */
+
+.podcast-category {
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        5px;
+
+    padding:
+        5px 9px;
+
+    border-radius:
+        20px;
+
+    background:
+        #f1eafa;
+
+    color:
+        #5b2c83;
+
+    font-size:
+        11px;
+
+    font-weight:
+        600;
+
+    white-space:
+        nowrap;
+
+    overflow:
+        hidden;
+
+    text-overflow:
+        ellipsis;
+
+    max-width:
+        52%;
+
+    flex-shrink:
+        1;
+}
+
+.podcast-category i {
+    font-size:
+        10px;
+}
+
+
+/* =========================================================
+   RATING
+========================================================= */
+
+.podcast-rating {
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        4px;
+
+    margin-left:
+        auto;
+
+    white-space:
+        nowrap;
+
+    flex-shrink:
+        0;
+}
+
+.rating-stars {
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        0;
+
+    color:
+        #f5b301;
+
+    font-size:
+        12px;
+
+    line-height:
+        1;
+}
+
+.rating-stars .empty-star {
+    color:
+        #d9d9d9;
+}
+
+.rating-number {
+    color:
+        #666;
+
+    font-size:
+        11px;
+
+    font-weight:
+        700;
+}
+
+.rating-count {
+    color:
+        #999;
+
+    font-size:
+        10px;
 }
 
 
@@ -932,6 +1171,7 @@
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
     }
+
 }
 
 
@@ -998,6 +1238,7 @@
         font-size:
             27px;
     }
+
 }
 
 
@@ -1007,6 +1248,7 @@
         grid-template-columns:
             1fr;
     }
+
 }
 
 </style>
@@ -1041,14 +1283,13 @@
                         class="close"
                         data-dismiss="alert"
                     >
-
                         <span>&times;</span>
-
                     </button>
 
                 </div>
 
             @endif
+
 
 
             {{-- =================================================
@@ -1068,9 +1309,7 @@
                         class="close"
                         data-dismiss="alert"
                     >
-
                         <span>&times;</span>
-
                     </button>
 
                 </div>
@@ -1080,7 +1319,7 @@
 
 
             {{-- =================================================
-                 USER HAS CHANNEL
+                 CHANNEL EXISTS
             ================================================== --}}
 
             @if($channel)
@@ -1091,8 +1330,6 @@
                 ================================================== --}}
 
                 <div class="channel-card">
-
-                    {{-- Channel Cover --}}
 
                     <div class="channel-cover"></div>
 
@@ -1115,17 +1352,23 @@
                             <div
                                 class="channel-image d-flex align-items-center justify-content-center"
                             >
+
                                 <i class="fas fa-podcast"></i>
+
                             </div>
 
                         @endif
 
 
+
                         {{-- Channel Name --}}
 
                         <h1 class="channel-name">
+
                             {{ $channel->name }}
+
                         </h1>
+
 
 
                         {{-- Channel Description --}}
@@ -1133,10 +1376,13 @@
                         @if($channel->description)
 
                             <p class="channel-description">
+
                                 {{ $channel->description }}
+
                             </p>
 
                         @endif
+
 
 
                         {{-- Create Podcast --}}
@@ -1152,6 +1398,7 @@
 
                         </a>
 
+
                     </div>
 
                 </div>
@@ -1159,13 +1406,11 @@
 
 
                 {{-- =================================================
-                     PODCASTS
+                     PODCASTS SECTION
                 ================================================== --}}
 
                 <div class="podcasts-section">
 
-
-                    {{-- Podcasts Header --}}
 
                     <div class="podcasts-header">
 
@@ -1176,7 +1421,9 @@
                             My Podcasts
 
                             <span class="podcasts-count">
+
                                 ({{ $channelPodacasts->count() }})
+
                             </span>
 
                         </h2>
@@ -1186,27 +1433,43 @@
 
 
                     {{-- =================================================
-                         PODCASTS AVAILABLE
+                         PODCASTS EXIST
                     ================================================== --}}
 
                     @if($channelPodacasts->count() > 0)
+
 
                         <div class="podcasts-grid">
 
 
                             @foreach($channelPodacasts as $podcast)
 
-                                <div class="podcast-card">
+
+                                {{-- =================================
+                                     PODCAST CARD
+                                ================================== --}}
+
+                                <a
+                                    href="{{ route(
+                                        'podcast.show',
+                                        $podcast->id
+                                    ) }}"
+                                    class="podcast-card"
+                                >
 
 
                                     {{-- Podcast Image --}}
 
                                     <div class="podcast-image-wrapper">
 
+
                                         @if($channel->image)
 
                                             <img
-                                                src="{{ asset('storage/' . $channel->image) }}"
+                                                src="{{ asset(
+                                                    'storage/' .
+                                                    $channel->image
+                                                ) }}"
                                                 alt="{{ $podcast->title }}"
                                                 class="podcast-image"
                                             >
@@ -1217,13 +1480,32 @@
                                                 class="podcast-image d-flex align-items-center justify-content-center"
                                             >
 
-                                                <i class="fas fa-podcast"
-                                                   style="font-size: 45px; color: #7c3aed;">
-                                                </i>
+                                                <i
+                                                    class="fas fa-podcast"
+                                                    style="
+                                                        font-size:45px;
+                                                        color:#7c3aed;
+                                                    "
+                                                ></i>
 
                                             </div>
 
                                         @endif
+
+
+
+                                        {{-- Play overlay --}}
+
+                                        <div class="podcast-play-overlay">
+
+                                            <div class="podcast-play-button">
+
+                                                <i class="fas fa-play"></i>
+
+                                            </div>
+
+                                        </div>
+
 
                                     </div>
 
@@ -1240,40 +1522,190 @@
                                             class="podcast-title"
                                             title="{{ $podcast->title }}"
                                         >
+
                                             {{ $podcast->title }}
+
                                         </h3>
 
 
-                                        {{-- Delete Podcast --}}
 
-                                        <form
-                                            action="{{ route('podcasts.delete', $podcast->id) }}"
-                                            method="POST"
-                                            class="delete-podcast-form"
-                                            onsubmit="return confirm('Are you sure you want to delete this podcast?')"
+                                        {{-- =================================
+                                             CATEGORY + RATING
+                                        ================================== --}}
+
+                                        <div class="podcast-meta-row">
+
+
+                                            {{-- CATEGORY --}}
+
+                                            @if($podcast->category)
+
+                                                <div class="podcast-category">
+
+                                                    <i class="fas fa-tag"></i>
+
+                                                    {{ $podcast->category->name }}
+
+                                                </div>
+
+                                            @endif
+
+
+
+                                            {{-- RATING --}}
+
+                                            <div class="podcast-rating">
+
+
+                                                @if($podcast->ratings_count > 0)
+
+
+                                                    <div class="rating-stars">
+
+
+                                                        @for(
+                                                            $i = 1;
+                                                            $i <= 5;
+                                                            $i++
+                                                        )
+
+                                                            @if(
+                                                                $podcast->ratings_avg_rating
+                                                                >= $i
+                                                            )
+
+                                                                <span>
+                                                                    ★
+                                                                </span>
+
+                                                            @else
+
+                                                                <span
+                                                                    class="empty-star"
+                                                                >
+                                                                    ★
+                                                                </span>
+
+                                                            @endif
+
+                                                        @endfor
+
+
+                                                    </div>
+
+
+
+                                                    <span class="rating-number">
+
+                                                        {{ number_format(
+                                                            $podcast->ratings_avg_rating,
+                                                            1
+                                                        ) }}
+
+                                                    </span>
+
+
+
+                                                    <span class="rating-count">
+
+                                                        ({{ $podcast->ratings_count }})
+
+                                                    </span>
+
+
+                                                @else
+
+
+                                                    <div class="rating-stars">
+
+                                                        <span class="empty-star">
+                                                            ★
+                                                        </span>
+
+                                                        <span class="empty-star">
+                                                            ★
+                                                        </span>
+
+                                                        <span class="empty-star">
+                                                            ★
+                                                        </span>
+
+                                                        <span class="empty-star">
+                                                            ★
+                                                        </span>
+
+                                                        <span class="empty-star">
+                                                            ★
+                                                        </span>
+
+                                                    </div>
+
+
+                                                    <span class="rating-count">
+
+                                                        No ratings
+
+                                                    </span>
+
+
+                                                @endif
+
+
+                                            </div>
+
+
+                                        </div>
+
+
+
+                                        {{-- =================================
+                                             DELETE
+                                        ================================== --}}
+
+                                        <div
+                                            onclick="event.preventDefault(); event.stopPropagation();"
                                         >
 
-                                            @csrf
-
-                                            @method('DELETE')
-
-
-                                            <button
-                                                type="submit"
-                                                class="delete-podcast-button"
+                                            <form
+                                                action="{{ route(
+                                                    'podcasts.delete',
+                                                    $podcast->id
+                                                ) }}"
+                                                method="POST"
+                                                class="delete-podcast-form"
+                                                onsubmit="
+                                                    return confirm(
+                                                        'Are you sure you want to delete this podcast?'
+                                                    );
+                                                "
                                             >
 
-                                                <i class="fas fa-trash"></i>
+                                                @csrf
 
-                                                Delete
+                                                @method('DELETE')
 
-                                            </button>
 
-                                        </form>
+                                                <button
+                                                    type="submit"
+                                                    class="delete-podcast-button"
+                                                >
+
+                                                    <i class="fas fa-trash"></i>
+
+                                                    Delete
+
+                                                </button>
+
+                                            </form>
+
+                                        </div>
+
 
                                     </div>
 
-                                </div>
+
+                                </a>
+
 
                             @endforeach
 
@@ -1282,12 +1714,13 @@
 
 
                     {{-- =================================================
-                         NO PODCASTS
+                         EMPTY
                     ================================================== --}}
 
                     @else
 
                         <div class="empty-podcasts">
+
 
                             <div class="empty-podcasts-icon">
 
@@ -1297,28 +1730,35 @@
 
 
                             <h3>
+
                                 No Podcasts Yet
+
                             </h3>
 
 
                             <p>
+
                                 You haven't uploaded any podcasts
                                 to your channel yet.
+
                             </p>
+
 
                         </div>
 
                     @endif
+
 
                 </div>
 
 
 
             {{-- =================================================
-                 USER DOES NOT HAVE CHANNEL
+                 NO CHANNEL
             ================================================== --}}
 
             @else
+
 
                 <div class="create-card">
 
@@ -1331,14 +1771,18 @@
 
 
                     <h1>
+
                         Create Your Podcast Channel
+
                     </h1>
 
 
                     <p>
+
                         You don't have a podcast channel yet.
                         Create your channel and start sharing
                         your podcasts with the world.
+
                     </p>
 
 
@@ -1353,7 +1797,9 @@
 
                     </a>
 
+
                 </div>
+
 
             @endif
 

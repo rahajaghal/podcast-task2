@@ -55,9 +55,12 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/podcast/{id}/favorite',[PodcastController::class, 'favorite'])->name('podcast.favorite');
     Route::post('/podcast/{id}/rate',[PodcastController::class, 'rate'])->name('podcast.rate');
+
+    Route::get('/show/user/favourites/podcasts',[PodcastController::class,'favouritePodcasts'])->name('podcasts.favourite');
+
     
 });
-Route::get('/show/podcasts/based/tag/{tag_id}','tagPodcasts');
+Route::get('/show/podcasts/based/tag/{tag_id}',[PodcastController::class, 'tagPodcasts'])->name('podcasts.tag');
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

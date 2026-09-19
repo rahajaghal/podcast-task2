@@ -73,7 +73,7 @@
 
 
     /* ========================================
-       PODCAST TITLE
+       TITLE / CHANNEL
     ======================================== */
 
     .podcast-title {
@@ -184,48 +184,31 @@
         align-items: center;
         justify-content: center;
 
-        transition:
-            all .15s ease;
+        transition: all .15s ease;
     }
-
-
-    /* Podcast IS in favourites */
 
     .favorite-button.is-favourite {
         background: #d63384 !important;
-
         border-color: #d63384 !important;
-
         color: #fff !important;
     }
-
-
-    /* Hover when NOT favourite */
 
     .favorite-button:hover {
         background: #fff0f6 !important;
-
         border-color: #d63384 !important;
 
         transform: scale(1.05);
     }
 
-
-    /* Hover when ALREADY favourite */
-
     .favorite-button.is-favourite:hover {
         background: #c2186a !important;
-
         border-color: #c2186a !important;
-
         color: #fff !important;
-
-        transform: scale(1.05);
     }
 
 
     /* ========================================
-       AUDIO PLAYER
+       AUDIO
     ======================================== */
 
     .audio-box {
@@ -253,7 +236,7 @@
 
 
     /* ========================================
-       PODCAST META
+       META
     ======================================== */
 
     .podcast-meta {
@@ -309,7 +292,17 @@
     ======================================== */
 
     .podcast-tags {
-        margin-top: 12px;
+        margin-top: 15px;
+    }
+
+    .tags-title {
+        font-size: 13px;
+
+        font-weight: 600;
+
+        color: #555;
+
+        margin-bottom: 6px;
     }
 
     .tag {
@@ -321,11 +314,25 @@
 
         background: #eee6f6;
 
-        padding: 4px 8px;
+        padding: 5px 9px;
 
         border-radius: 12px;
 
         margin: 2px;
+
+        text-decoration: none;
+
+        transition: all .15s ease;
+    }
+
+    .tag:hover {
+        color: #fff;
+
+        background: #5b2c83;
+
+        text-decoration: none;
+
+        transform: translateY(-1px);
     }
 
 
@@ -478,9 +485,7 @@
             <div class="podcast-actions">
 
 
-                {{-- ====================================
-                     RATING
-                ===================================== --}}
+                {{-- Rating --}}
 
                 <form
                     action="{{ route('podcast.rate', $podcast->id) }}"
@@ -490,14 +495,12 @@
 
                     @csrf
 
-
                     @for($i = 1; $i <= 5; $i++)
 
                         <button
                             type="submit"
                             name="rating"
                             value="{{ $i }}"
-
                             class="rating-star
                             @if(
                                 isset($userRating) &&
@@ -506,9 +509,7 @@
                             )
                                 selected
                             @endif"
-
                             title="{{ $i }} stars"
-
                             aria-label="Rate {{ $i }} stars"
                         >
                             ★
@@ -519,9 +520,7 @@
                 </form>
 
 
-                {{-- ====================================
-                     FAVORITE
-                ===================================== --}}
+                {{-- Favorite --}}
 
                 <form
                     action="{{ route('podcast.favorite', $podcast->id) }}"
@@ -531,26 +530,20 @@
 
                     @csrf
 
-
                     <button
                         type="submit"
-
                         class="favorite-button
                         {{ $isFavourite ? 'is-favourite' : '' }}"
-
                         title="{{ $isFavourite
                             ? 'Remove from favourites'
                             : 'Add to favourites'
                         }}"
-
                         aria-label="{{ $isFavourite
                             ? 'Remove from favourites'
                             : 'Add to favourites'
                         }}"
                     >
-
                         ♥
-
                     </button>
 
                 </form>
@@ -641,10 +634,7 @@
             <div class="average-rating">
 
                 <strong>
-
-                    ★
-                    {{ number_format($podcast->ratings_avg_rating, 1) }}
-
+                    ★ {{ number_format($podcast->ratings_avg_rating, 1) }}
                 </strong>
 
                 ({{ $podcast->ratings_count }} ratings)
@@ -670,13 +660,19 @@
 
             <div class="podcast-tags">
 
+                <div class="tags-title">
+                    <i class="fas fa-tags"></i>
+                    Tags
+                </div>
+
                 @foreach($podcast->tags as $tag)
 
-                    <span class="tag">
-
+                    <a
+                        href="{{ route('podcasts.tag', $tag->id) }}"
+                        class="tag"
+                    >
                         #{{ $tag->name }}
-
-                    </span>
+                    </a>
 
                 @endforeach
 

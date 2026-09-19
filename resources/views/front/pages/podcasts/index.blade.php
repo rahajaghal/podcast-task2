@@ -2,892 +2,678 @@
 
 @section('title', 'Podcasts')
 
-
 @push('styles')
-
 <style>
 
-/* =========================================================
-   PAGE
-========================================================= */
-
-.podcasts-page {
-    min-height: calc(100vh - 140px);
-
-    padding: 50px 20px 70px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #f8f5ff 0%,
-            #ffffff 50%,
-            #f8f5ff 100%
-        );
-}
-
-.podcasts-container {
-    max-width: 1200px;
-
-    margin: 0 auto;
-}
-
-
-/* =========================================================
-   PAGE HEADER
-========================================================= */
-
-.page-header {
-    text-align: center;
-
-    margin-bottom: 35px;
-}
-
-.header-icon {
-    width: 75px;
-    height: 75px;
-
-    margin: 0 auto 18px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 22px;
-
-    background: #5b2c83;
-
-    color: #ffffff;
-
-    font-size: 30px;
-
-    box-shadow:
-        0 10px 25px rgba(91, 44, 131, 0.20);
-}
-
-.page-header h1 {
-    margin: 0 0 10px;
-
-    color: #3f205c;
-
-    font-size: 38px;
-
-    font-weight: 800;
-}
-
-.page-header p {
-    margin: 0;
-
-    color: #777;
-
-    font-size: 16px;
-}
-
-
-/* =========================================================
-   SEARCH CARD
-========================================================= */
-
-.search-card {
-    background: #ffffff;
-
-    border-radius: 22px;
-
-    padding: 25px;
-
-    margin-bottom: 25px;
-
-    box-shadow:
-        0 8px 30px rgba(91, 44, 131, 0.08);
-}
-
-.search-form {
-    display: flex;
-
-    align-items: center;
-
-    gap: 12px;
-}
-
-.search-input-wrapper {
-    position: relative;
-
-    flex: 1;
-}
-
-.search-input-wrapper i {
-    position: absolute;
-
-    left: 17px;
-    top: 50%;
-
-    transform: translateY(-50%);
-
-    color: #8c6ba5;
-
-    font-size: 16px;
-}
-
-.search-input {
-    width: 100%;
-
-    height: 52px;
-
-    padding: 0 18px 0 48px;
-
-    border: 1px solid #e2dce8;
-
-    border-radius: 14px;
-
-    outline: none;
-
-    background: #faf9fc;
-
-    color: #333;
-
-    font-size: 15px;
-
-    transition: all 0.2s ease;
-}
-
-.search-input:focus {
-    border-color: #5b2c83;
-
-    background: #ffffff;
-
-    box-shadow:
-        0 0 0 3px rgba(91, 44, 131, 0.08);
-}
-
-.search-input::placeholder {
-    color: #aaa;
-}
-
-.search-button {
-    height: 52px;
-
-    padding: 0 25px;
-
-    border: none;
-
-    border-radius: 14px;
-
-    background: #5b2c83;
-
-    color: #ffffff;
-
-    font-size: 15px;
-
-    font-weight: 700;
-
-    cursor: pointer;
-
-    transition: all 0.2s ease;
-}
-
-.search-button:hover {
-    background: #472066;
-
-    transform: translateY(-1px);
-
-    box-shadow:
-        0 7px 18px rgba(91, 44, 131, 0.20);
-}
-
-.search-button i {
-    margin-right: 7px;
-}
-
-
-/* =========================================================
-   SEARCH RESULT
-========================================================= */
-
-.search-result {
-    margin-top: 18px;
-
-    padding-top: 18px;
-
-    border-top: 1px solid #eeeeee;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 15px;
-}
-
-.search-result-text {
-    color: #666;
-
-    font-size: 14px;
-}
-
-.search-result-text strong {
-    color: #5b2c83;
-}
-
-.clear-search {
-    display: inline-flex;
-
-    align-items: center;
-
-    gap: 6px;
-
-    padding: 7px 12px;
-
-    border-radius: 9px;
-
-    background: #f5eff9;
-
-    color: #5b2c83;
-
-    text-decoration: none;
-
-    font-size: 13px;
-
-    font-weight: 600;
-
-    transition: all 0.2s ease;
-}
-
-.clear-search:hover {
-    background: #5b2c83;
-
-    color: #ffffff;
-
-    text-decoration: none;
-}
-
-
-/* =========================================================
-   CATEGORY FILTER CARD
-========================================================= */
-
-.filter-card {
-    background: #ffffff;
-
-    border-radius: 22px;
-
-    padding: 25px;
-
-    margin-bottom: 35px;
-
-    box-shadow:
-        0 8px 30px rgba(91, 44, 131, 0.08);
-}
-
-.filter-header {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 15px;
-
-    margin-bottom: 18px;
-}
-
-.filter-title {
-    display: flex;
-
-    align-items: center;
-
-    gap: 9px;
-
-    color: #3f205c;
-
-    font-size: 18px;
-
-    font-weight: 750;
-}
-
-.filter-title i {
-    color: #5b2c83;
-}
-
-.filter-subtitle {
-    color: #999;
-
-    font-size: 13px;
-}
-
-.filter-buttons {
-    display: flex;
-
-    flex-wrap: wrap;
-
-    gap: 10px;
-}
-
-.filter-button {
-    display: inline-flex;
-
-    align-items: center;
-
-    gap: 7px;
-
-    padding: 10px 18px;
-
-    border-radius: 25px;
-
-    border: 1px solid #e0d9e6;
-
-    background: #ffffff;
-
-    color: #666;
-
-    text-decoration: none;
-
-    font-size: 14px;
-
-    font-weight: 600;
-
-    transition: all 0.2s ease;
-}
-
-.filter-button:hover {
-    border-color: #5b2c83;
-
-    color: #5b2c83;
-
-    background: #faf7fd;
-
-    text-decoration: none;
-
-    transform: translateY(-1px);
-}
-
-.filter-button.active {
-    background: #5b2c83;
-
-    border-color: #5b2c83;
-
-    color: #ffffff;
-
-    box-shadow:
-        0 5px 15px rgba(91, 44, 131, 0.20);
-}
-
-.filter-button.active:hover {
-    background: #472066;
-
-    color: #ffffff;
-}
-
-
-/* =========================================================
-   PODCAST HEADER
-========================================================= */
-
-.podcasts-header {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    margin-bottom: 20px;
-}
-
-.podcasts-header h2 {
-    margin: 0;
-
-    color: #3f205c;
-
-    font-size: 23px;
-
-    font-weight: 750;
-}
-
-.podcasts-count {
-    display: inline-flex;
-
-    align-items: center;
-
-    padding: 6px 13px;
-
-    border-radius: 20px;
-
-    background: #eee6f5;
-
-    color: #5b2c83;
-
-    font-size: 13px;
-
-    font-weight: 700;
-}
-
-
-/* =========================================================
-   PODCAST GRID
-========================================================= */
-
-.podcasts-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(3, minmax(0, 1fr));
-
-    gap: 25px;
-}
-
-
-/* =========================================================
-   PODCAST CARD
-========================================================= */
-
-.podcast-card {
-    position: relative;
-
-    display: block;
-
-    overflow: hidden;
-
-    background: #ffffff;
-
-    border-radius: 20px;
-
-    border: 1px solid rgba(91, 44, 131, 0.06);
-
-    box-shadow:
-        0 8px 25px rgba(91, 44, 131, 0.08);
-
-    text-decoration: none;
-
-    color: inherit;
-
-    transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
-}
-
-.podcast-card:hover {
-    transform: translateY(-6px);
-
-    box-shadow:
-        0 15px 35px rgba(91, 44, 131, 0.15);
-
-    text-decoration: none;
-
-    color: inherit;
-}
-
-
-/* =========================================================
-   PODCAST IMAGE
-========================================================= */
-
-.podcast-image-wrapper {
-    position: relative;
-
-    width: 100%;
-    height: 220px;
-
-    overflow: hidden;
-
-    background: #eee7f5;
-}
-
-.podcast-image {
-    width: 100%;
-    height: 100%;
-
-    object-fit: cover;
-
-    transition: transform 0.35s ease;
-}
-
-.podcast-card:hover .podcast-image {
-    transform: scale(1.05);
-}
-
-.podcast-overlay {
-    position: absolute;
-
-    inset: 0;
-
-    background:
-        linear-gradient(
-            to top,
-            rgba(35, 15, 50, 0.55),
-            transparent 55%
-        );
-
-    pointer-events: none;
-}
-
-
-/* =========================================================
-   PLAY OVERLAY
-========================================================= */
-
-.play-overlay {
-    position: absolute;
-
-    inset: 0;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    opacity: 0;
-
-    background: rgba(63, 32, 92, 0.20);
-
-    transition: opacity 0.25s ease;
-}
-
-.podcast-card:hover .play-overlay {
-    opacity: 1;
-}
-
-.play-button {
-    width: 68px;
-    height: 68px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background: #5b2c83;
-
-    color: #ffffff;
-
-    font-size: 23px;
-
-    box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.30);
-
-    transition: transform 0.2s ease;
-}
-
-.podcast-card:hover .play-button {
-    transform: scale(1.08);
-}
-
-.play-button i {
-    margin-left: 4px;
-}
-
-
-/* =========================================================
-   IMAGE PLACEHOLDER
-========================================================= */
-
-.podcast-placeholder {
-    position: relative;
-
-    width: 100%;
-    height: 100%;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    background:
-        linear-gradient(
-            135deg,
-            #eee6f5,
-            #faf7fd
-        );
-
-    color: #9b7bb5;
-}
-
-.podcast-placeholder i {
-    font-size: 50px;
-}
-
-
-/* =========================================================
-   PLACEHOLDER PLAY
-========================================================= */
-
-.podcast-placeholder .play-overlay {
-    display: flex;
-}
-
-
-/* =========================================================
-   PODCAST BODY
-========================================================= */
-
-.podcast-body {
-    padding: 20px;
-}
-
-.podcast-title {
-    margin-bottom: 12px;
-
-    color: #333;
-
-    font-size: 19px;
-
-    font-weight: 750;
-
-    line-height: 1.4;
-
-    display: -webkit-box;
-
-    -webkit-line-clamp: 2;
-
-    -webkit-box-orient: vertical;
-
-    overflow: hidden;
-}
-
-.podcast-channel {
-    display: flex;
-
-    align-items: center;
-
-    gap: 7px;
-
-    color: #777;
-
-    font-size: 14px;
-}
-
-.podcast-channel i {
-    color: #5b2c83;
-}
-
-
-/* =========================================================
-   CATEGORY BADGE
-========================================================= */
-
-.podcast-category {
-    display: inline-flex;
-
-    align-items: center;
-
-    gap: 5px;
-
-    margin-top: 14px;
-
-    padding: 6px 11px;
-
-    border-radius: 20px;
-
-    background: #f1eafa;
-
-    color: #5b2c83;
-
-    font-size: 12px;
-
-    font-weight: 650;
-}
-
-
-/* =========================================================
-   EMPTY STATE
-========================================================= */
-
-.empty-state {
-    background: #ffffff;
-
-    border-radius: 22px;
-
-    padding: 70px 25px;
-
-    text-align: center;
-
-    box-shadow:
-        0 8px 30px rgba(91, 44, 131, 0.08);
-}
-
-.empty-icon {
-    width: 80px;
-    height: 80px;
-
-    margin: 0 auto 20px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background: #f1eafa;
-
-    color: #8d6aa5;
-
-    font-size: 30px;
-}
-
-.empty-state h3 {
-    margin: 0 0 10px;
-
-    color: #5b2c83;
-
-    font-size: 24px;
-}
-
-.empty-state p {
-    margin: 0;
-
-    color: #777;
-
-    font-size: 15px;
-}
-
-
-/* =========================================================
-   NO CATEGORIES
-========================================================= */
-
-.no-categories {
-    background: #ffffff;
-
-    border-radius: 22px;
-
-    padding: 50px 25px;
-
-    margin-bottom: 35px;
-
-    text-align: center;
-
-    box-shadow:
-        0 8px 30px rgba(91, 44, 131, 0.08);
-}
-
-.no-categories-icon {
-    width: 70px;
-    height: 70px;
-
-    margin: 0 auto 18px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background: #f1eafa;
-
-    color: #9b7bb5;
-
-    font-size: 27px;
-}
-
-.no-categories h3 {
-    margin: 0 0 8px;
-
-    color: #5b2c83;
-
-    font-size: 21px;
-}
-
-.no-categories p {
-    margin: 0;
-
-    color: #777;
-}
-
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media (max-width: 992px) {
-
-    .podcasts-grid {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-    }
-
-}
-
-
-@media (max-width: 650px) {
+    /* =========================================================
+       PAGE
+    ========================================================= */
 
     .podcasts-page {
-        padding: 30px 15px 50px;
+        padding: 30px 0 50px;
     }
 
-    .page-header h1 {
-        font-size: 30px;
+    .podcasts-container {
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+
+    /* =========================================================
+       PAGE HEADER
+    ========================================================= */
+
+    .page-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 25px;
     }
 
     .header-icon {
-        width: 65px;
-        height: 65px;
+        width: 50px;
+        height: 50px;
 
-        font-size: 26px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #eee6f6;
+        color: #5b2c83;
+
+        border-radius: 12px;
+
+        font-size: 22px;
+    }
+
+    .page-header h1 {
+        margin: 0;
+
+        font-size: 28px;
+        font-weight: 700;
+
+        color: #343a40;
+    }
+
+    .page-header p {
+        margin: 3px 0 0;
+
+        color: #888;
+        font-size: 14px;
+    }
+
+
+    /* =========================================================
+       SEARCH
+    ========================================================= */
+
+    .search-card {
+        background: #fff;
+
+        border-radius: 12px;
+
+        padding: 15px;
+
+        margin-bottom: 20px;
+
+        box-shadow: 0 3px 15px rgba(0, 0, 0, .06);
     }
 
     .search-form {
-        flex-direction: column;
+        display: flex;
+
+        gap: 10px;
     }
 
     .search-input-wrapper {
+        position: relative;
+
+        flex: 1;
+    }
+
+    .search-input-wrapper i {
+        position: absolute;
+
+        left: 14px;
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        color: #999;
+    }
+
+    .search-input {
         width: 100%;
+
+        height: 42px;
+
+        border: 1px solid #ddd;
+
+        border-radius: 8px;
+
+        padding: 0 15px 0 40px;
+
+        outline: none;
+
+        font-size: 14px;
+    }
+
+    .search-input:focus {
+        border-color: #8b5aa8;
+
+        box-shadow: 0 0 0 2px rgba(91, 44, 131, .08);
     }
 
     .search-button {
-        width: 100%;
+        height: 42px;
+
+        padding: 0 20px;
+
+        border: none;
+
+        border-radius: 8px;
+
+        background: #5b2c83;
+
+        color: #fff;
+
+        font-size: 14px;
+
+        cursor: pointer;
     }
 
-    .filter-header {
-        align-items: flex-start;
-
-        flex-direction: column;
-
-        gap: 5px;
+    .search-button:hover {
+        background: #482267;
     }
 
-    .podcasts-grid {
-        grid-template-columns: 1fr;
+
+    /* =========================================================
+       FILTERS
+    ========================================================= */
+
+    .filter-card {
+        background: #fff;
+
+        border-radius: 12px;
+
+        padding: 15px;
+
+        margin-bottom: 25px;
+
+        box-shadow: 0 3px 15px rgba(0, 0, 0, .06);
+    }
+
+    .filter-title {
+        font-size: 13px;
+
+        font-weight: 600;
+
+        color: #555;
+
+        margin-bottom: 10px;
+    }
+
+    .filter-buttons {
+        display: flex;
+
+        flex-wrap: wrap;
+
+        gap: 7px;
+    }
+
+    .filter-button {
+        display: inline-block;
+
+        padding: 6px 12px;
+
+        border-radius: 20px;
+
+        background: #f3f3f3;
+
+        color: #555;
+
+        text-decoration: none;
+
+        font-size: 12px;
+
+        transition: all .15s ease;
+    }
+
+    .filter-button:hover {
+        background: #eee6f6;
+
+        color: #5b2c83;
+
+        text-decoration: none;
+    }
+
+    .filter-button.active {
+        background: #5b2c83;
+
+        color: #fff;
+    }
+
+
+    /* =========================================================
+       PODCASTS HEADER
+    ========================================================= */
+
+    .podcasts-header {
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        margin-bottom: 15px;
     }
 
     .podcasts-header h2 {
+        margin: 0;
+
         font-size: 20px;
+
+        font-weight: 700;
+
+        color: #343a40;
     }
+
+    .podcasts-count {
+        color: #888;
+
+        font-size: 13px;
+    }
+
+
+    /* =========================================================
+       PODCAST GRID
+    ========================================================= */
+
+    .podcasts-grid {
+        display: grid;
+
+        grid-template-columns:
+            repeat(auto-fill, minmax(250px, 1fr));
+
+        gap: 18px;
+    }
+
+
+    /* =========================================================
+       PODCAST CARD
+    ========================================================= */
+
+    .podcast-card {
+        display: block;
+
+        background: #fff;
+
+        border-radius: 12px;
+
+        overflow: hidden;
+
+        box-shadow: 0 3px 15px rgba(0, 0, 0, .07);
+
+        text-decoration: none !important;
+
+        color: inherit;
+
+        transition:
+            transform .18s ease,
+            box-shadow .18s ease;
+    }
+
+    .podcast-card:hover {
+        transform: translateY(-3px);
+
+        box-shadow: 0 7px 22px rgba(0, 0, 0, .12);
+    }
+
+
+    /* =========================================================
+       PODCAST IMAGE
+    ========================================================= */
 
     .podcast-image-wrapper {
-        height: 210px;
-    }
+        position: relative;
 
-    .search-result {
-        align-items: flex-start;
-
-        flex-direction: column;
-    }
-
-}
-
-
-@media (max-width: 400px) {
-
-    .filter-button {
         width: 100%;
 
+        height: 165px;
+
+        overflow: hidden;
+
+        background: #f0e8f7;
+    }
+
+    .podcast-image {
+        width: 100%;
+
+        height: 100%;
+
+        object-fit: cover;
+
+        transition: transform .25s ease;
+    }
+
+    .podcast-card:hover .podcast-image {
+        transform: scale(1.03);
+    }
+
+    .podcast-placeholder {
+        width: 100%;
+
+        height: 100%;
+
+        display: flex;
+
+        align-items: center;
+
         justify-content: center;
+
+        color: #5b2c83;
+
+        font-size: 45px;
     }
 
-    .search-card,
-    .filter-card {
-        padding: 18px;
+
+    /* =========================================================
+       PLAY OVERLAY
+    ========================================================= */
+
+    .podcast-overlay {
+        position: absolute;
+
+        inset: 0;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        background: rgba(0, 0, 0, .08);
+
+        opacity: 0;
+
+        transition: opacity .2s ease;
     }
 
-}
+    .podcast-card:hover .podcast-overlay {
+        opacity: 1;
+    }
+
+    .play-overlay {
+        width: 48px;
+
+        height: 48px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        border-radius: 50%;
+
+        background: #5b2c83;
+
+        color: #fff;
+
+        font-size: 18px;
+
+        box-shadow: 0 4px 12px rgba(0, 0, 0, .2);
+    }
+
+
+    /* =========================================================
+       CARD BODY
+    ========================================================= */
+
+    .podcast-body {
+        padding: 15px;
+    }
+
+    .podcast-title {
+        margin: 0 0 6px;
+
+        font-size: 17px;
+
+        line-height: 1.3;
+
+        font-weight: 700;
+
+        color: #343a40;
+
+        display: -webkit-box;
+
+        -webkit-line-clamp: 2;
+
+        -webkit-box-orient: vertical;
+
+        overflow: hidden;
+    }
+
+    .podcast-channel {
+        color: #777;
+
+        font-size: 13px;
+
+        margin-bottom: 0;
+
+        white-space: nowrap;
+
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+    }
+
+    .podcast-channel i {
+        color: #5b2c83;
+
+        margin-right: 4px;
+    }
+
+
+    /* =========================================================
+       CATEGORY + RATING ROW
+    ========================================================= */
+
+    .podcast-info-row {
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        gap: 8px;
+
+        margin-top: 12px;
+
+        min-width: 0;
+    }
+
+
+    /* =========================================================
+       CATEGORY
+    ========================================================= */
+
+    .podcast-category {
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 5px;
+
+        padding: 5px 9px;
+
+        border-radius: 20px;
+
+        background: #f1eafa;
+
+        color: #5b2c83;
+
+        font-size: 11px;
+
+        font-weight: 600;
+
+        white-space: nowrap;
+
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+
+        max-width: 52%;
+
+        flex-shrink: 1;
+    }
+
+    .podcast-category i {
+        font-size: 10px;
+    }
+
+
+    /* =========================================================
+       RATING
+    ========================================================= */
+
+    .podcast-rating {
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 4px;
+
+        margin-left: auto;
+
+        white-space: nowrap;
+
+        flex-shrink: 0;
+    }
+
+    .rating-stars {
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 0;
+
+        color: #f5b301;
+
+        font-size: 12px;
+
+        line-height: 1;
+    }
+
+    .rating-stars .empty-star {
+        color: #d9d9d9;
+    }
+
+    .rating-number {
+        color: #666;
+
+        font-size: 11px;
+
+        font-weight: 700;
+    }
+
+    .rating-count {
+        color: #999;
+
+        font-size: 10px;
+    }
+
+
+    /* =========================================================
+       EMPTY STATE
+    ========================================================= */
+
+    .empty-state {
+        background: #fff;
+
+        border-radius: 12px;
+
+        padding: 50px 20px;
+
+        text-align: center;
+
+        box-shadow: 0 3px 15px rgba(0, 0, 0, .06);
+    }
+
+    .empty-state i {
+        font-size: 45px;
+
+        color: #d8c9e3;
+
+        margin-bottom: 15px;
+    }
+
+    .empty-state h3 {
+        margin: 0 0 7px;
+
+        color: #555;
+
+        font-size: 18px;
+    }
+
+    .empty-state p {
+        margin: 0;
+
+        color: #999;
+
+        font-size: 13px;
+    }
+
+
+    /* =========================================================
+       NO CATEGORIES
+    ========================================================= */
+
+    .no-categories {
+        padding: 20px;
+
+        background: #fff8e1;
+
+        border: 1px solid #ffe082;
+
+        border-radius: 10px;
+
+        color: #856404;
+
+        font-size: 14px;
+
+        margin-bottom: 20px;
+    }
+
+
+    /* =========================================================
+       MOBILE
+    ========================================================= */
+
+    @media (max-width: 768px) {
+
+        .podcasts-page {
+            padding: 20px 0 40px;
+        }
+
+        .podcasts-container {
+            padding: 0 10px;
+        }
+
+        .page-header h1 {
+            font-size: 24px;
+        }
+
+        .search-form {
+            flex-direction: column;
+        }
+
+        .search-button {
+            width: 100%;
+        }
+
+        .podcasts-grid {
+            grid-template-columns:
+                repeat(auto-fill, minmax(220px, 1fr));
+
+            gap: 15px;
+        }
+    }
+
+
+    @media (max-width: 480px) {
+
+        .podcasts-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .podcast-image-wrapper {
+            height: 190px;
+        }
+
+        .podcast-info-row {
+            gap: 5px;
+        }
+
+        .podcast-category {
+            max-width: 48%;
+        }
+
+        .rating-stars {
+            font-size: 11px;
+        }
+
+        .rating-number {
+            font-size: 10px;
+        }
+
+        .rating-count {
+            font-size: 9px;
+        }
+    }
 
 </style>
-
 @endpush
-
 
 
 @section('content')
@@ -909,13 +695,17 @@
 
             </div>
 
-            <h1>
-                Discover Podcasts
-            </h1>
+            <div>
 
-            <p>
-                Explore podcasts from your favorite categories
-            </p>
+                <h1>
+                    Podcasts
+                </h1>
+
+                <p>
+                    Discover podcasts based on your interests.
+                </p>
+
+            </div>
 
         </div>
 
@@ -933,19 +723,6 @@
                 class="search-form"
             >
 
-                {{-- Keep selected category when searching --}}
-
-                @if(request()->filled('categoryId'))
-
-                    <input
-                        type="hidden"
-                        name="categoryId"
-                        value="{{ request('categoryId') }}"
-                    >
-
-                @endif
-
-
                 <div class="search-input-wrapper">
 
                     <i class="fas fa-search"></i>
@@ -954,9 +731,8 @@
                         type="text"
                         name="search"
                         value="{{ request('search') }}"
+                        placeholder="Search podcasts..."
                         class="search-input"
-                        placeholder="Search podcast by name..."
-                        autocomplete="off"
                     >
 
                 </div>
@@ -966,50 +742,11 @@
                     type="submit"
                     class="search-button"
                 >
-
-                    <i class="fas fa-search"></i>
-
+                    <i class="fas fa-search mr-1"></i>
                     Search
-
                 </button>
 
             </form>
-
-
-            {{-- Search information --}}
-
-            @if(request()->filled('search'))
-
-                <div class="search-result">
-
-                    <div class="search-result-text">
-
-                        Search results for:
-
-                        <strong>
-                            "{{ request('search') }}"
-                        </strong>
-
-                    </div>
-
-
-                    <a
-                        href="{{ route(
-                            'podcasts.index',
-                            request()->except('search')
-                        ) }}"
-                        class="clear-search"
-                    >
-
-                        <i class="fas fa-times"></i>
-
-                        Clear Search
-
-                    </a>
-
-                </div>
-
-            @endif
 
         </div>
 
@@ -1019,25 +756,15 @@
              CATEGORY FILTER
         ====================================================== --}}
 
-        @if($categories->count() > 0)
+        @if($categories->count())
 
             <div class="filter-card">
 
-                <div class="filter-header">
+                <div class="filter-title">
 
-                    <div class="filter-title">
+                    <i class="fas fa-filter mr-1"></i>
 
-                        <i class="fas fa-filter"></i>
-
-                        Your Categories
-
-                    </div>
-
-                    <div class="filter-subtitle">
-
-                        Your selected podcast categories
-
-                    </div>
+                    Filter by category
 
                 </div>
 
@@ -1048,48 +775,34 @@
                     {{-- ALL --}}
 
                     <a
-                        href="{{ route(
-                            'podcasts.index',
-                            request()->except('categoryId')
-                        ) }}"
+                        href="{{ route('podcasts.index', [
+                            'search' => request('search')
+                        ]) }}"
                         class="filter-button
-                        {{ !request()->filled('categoryId') ? 'active' : '' }}"
+                        {{ !request('categoryId') ? 'active' : '' }}"
                     >
-
-                        <i class="fas fa-layer-group"></i>
-
                         All
-
                     </a>
 
 
-
-                    {{-- USER CATEGORIES --}}
+                    {{-- CATEGORIES --}}
 
                     @foreach($categories as $category)
 
                         <a
-                            href="{{ route(
-                                'podcasts.index',
-                                array_merge(
-                                    request()->except('categoryId'),
-                                    [
-                                        'categoryId' => $category->id
-                                    ]
-                                )
-                            ) }}"
+                            href="{{ route('podcasts.index', [
+                                'categoryId' => $category->id,
+                                'search' => request('search')
+                            ]) }}"
                             class="filter-button
-                            {{ request('categoryId') == $category->id ? 'active' : '' }}"
+                            {{ request('categoryId') == $category->id
+                                ? 'active'
+                                : '' }}"
                         >
-
-                            <i class="fas fa-tag"></i>
-
                             {{ $category->name }}
-
                         </a>
 
                     @endforeach
-
 
                 </div>
 
@@ -1097,25 +810,11 @@
 
         @else
 
-            {{-- =================================================
-                 NO CATEGORIES
-            ================================================== --}}
-
             <div class="no-categories">
 
-                <div class="no-categories-icon">
+                <i class="fas fa-info-circle mr-1"></i>
 
-                    <i class="fas fa-tags"></i>
-
-                </div>
-
-                <h3>
-                    No Categories Selected
-                </h3>
-
-                <p>
-                    You have not selected any podcast categories yet.
-                </p>
+                You have not selected any podcast categories yet.
 
             </div>
 
@@ -1124,28 +823,20 @@
 
 
         {{-- =====================================================
-             PODCAST HEADER
+             PODCASTS HEADER
         ====================================================== --}}
 
         <div class="podcasts-header">
 
             <h2>
-
-                <i class="fas fa-headphones"></i>
-
-                Podcasts
-
+                Latest Podcasts
             </h2>
-
 
             <span class="podcasts-count">
 
                 {{ $podcasts->count() }}
 
-                {{ $podcasts->count() == 1
-                    ? 'Podcast'
-                    : 'Podcasts'
-                }}
+                {{ Str::plural('podcast', $podcasts->count()) }}
 
             </span>
 
@@ -1157,33 +848,27 @@
              PODCASTS
         ====================================================== --}}
 
-        @if($podcasts->count() > 0)
+        @if($podcasts->count())
+
 
             <div class="podcasts-grid">
+
 
                 @foreach($podcasts as $podcast)
 
 
-                    {{-- =================================================
-                         CLICKABLE PODCAST CARD
-                    ================================================== --}}
-
                     <a
-                        href="{{ route(
-                            'podcast.show',
-                            $podcast->id
-                        ) }}"
+                        href="{{ route('podcast.show', $podcast->id) }}"
                         class="podcast-card"
                     >
 
 
-                        {{-- =================================================
+                        {{-- =====================================
                              IMAGE
-                             Podcast has no image,
-                             so use channel image.
-                        ================================================== --}}
+                        ====================================== --}}
 
                         <div class="podcast-image-wrapper">
+
 
                             @if(
                                 $podcast->channel &&
@@ -1199,63 +884,48 @@
                                     class="podcast-image"
                                 >
 
-                                <div class="podcast-overlay"></div>
-
-
-                                {{-- PLAY BUTTON --}}
-
-                                <div class="play-overlay">
-
-                                    <div class="play-button">
-
-                                        <i class="fas fa-play"></i>
-
-                                    </div>
-
-                                </div>
-
                             @else
 
                                 <div class="podcast-placeholder">
 
                                     <i class="fas fa-podcast"></i>
 
-
-                                    {{-- PLAY BUTTON --}}
-
-                                    <div class="play-overlay">
-
-                                        <div class="play-button">
-
-                                            <i class="fas fa-play"></i>
-
-                                        </div>
-
-                                    </div>
-
                                 </div>
 
                             @endif
+
+
+                            {{-- PLAY OVERLAY --}}
+
+                            <div class="podcast-overlay">
+
+                                <div class="play-overlay">
+
+                                    <i class="fas fa-play"></i>
+
+                                </div>
+
+                            </div>
+
 
                         </div>
 
 
 
-                        {{-- =================================================
-                             PODCAST INFORMATION
-                        ================================================== --}}
+                        {{-- =====================================
+                             CARD BODY
+                        ====================================== --}}
 
                         <div class="podcast-body">
 
 
                             {{-- TITLE --}}
 
-                            <div class="podcast-title">
+                            <h3 class="podcast-title">
 
                                 {{ $podcast->title }}
 
-                            </div>
-
+                            </h3>
 
 
                             {{-- CHANNEL --}}
@@ -1266,9 +936,7 @@
 
                                     <i class="fas fa-microphone"></i>
 
-                                    <span>
-                                        {{ $podcast->channel->name }}
-                                    </span>
+                                    {{ $podcast->channel->name }}
 
                                 </div>
 
@@ -1276,99 +944,159 @@
 
 
 
-                            {{-- CATEGORY --}}
+                            {{-- =================================
+                                 CATEGORY + RATING
+                            ================================== --}}
 
-                            @if($podcast->category)
+                            <div class="podcast-info-row">
 
-                                <div class="podcast-category">
 
-                                    <i class="fas fa-tag"></i>
+                                {{-- CATEGORY --}}
 
-                                    {{ $podcast->category->name }}
+                                @if($podcast->category)
+
+                                    <div class="podcast-category">
+
+                                        <i class="fas fa-tag"></i>
+
+                                        {{ $podcast->category->name }}
+
+                                    </div>
+
+                                @endif
+
+
+                                {{-- RATING --}}
+
+                                <div class="podcast-rating">
+
+
+                                    @if($podcast->ratings_count > 0)
+
+
+                                        <div class="rating-stars">
+
+
+                                            @for($i = 1; $i <= 5; $i++)
+
+                                                @if(
+                                                    $podcast->ratings_avg_rating
+                                                    >= $i
+                                                )
+
+                                                    <span>
+                                                        ★
+                                                    </span>
+
+                                                @else
+
+                                                    <span
+                                                        class="empty-star"
+                                                    >
+                                                        ★
+                                                    </span>
+
+                                                @endif
+
+                                            @endfor
+
+
+                                        </div>
+
+
+                                        <span class="rating-number">
+
+                                            {{ number_format(
+                                                $podcast->ratings_avg_rating,
+                                                1
+                                            ) }}
+
+                                        </span>
+
+
+                                        <span class="rating-count">
+
+                                            ({{ $podcast->ratings_count }})
+
+                                        </span>
+
+
+                                    @else
+
+
+                                        <div class="rating-stars">
+
+                                            <span class="empty-star">
+                                                ★
+                                            </span>
+
+                                            <span class="empty-star">
+                                                ★
+                                            </span>
+
+                                            <span class="empty-star">
+                                                ★
+                                            </span>
+
+                                            <span class="empty-star">
+                                                ★
+                                            </span>
+
+                                            <span class="empty-star">
+                                                ★
+                                            </span>
+
+                                        </div>
+
+
+                                        <span class="rating-count">
+
+                                            No ratings
+
+                                        </span>
+
+
+                                    @endif
+
 
                                 </div>
 
-                            @endif
+
+                            </div>
 
 
                         </div>
 
+
                     </a>
 
                 @endforeach
+
 
             </div>
 
 
         @else
 
+
             {{-- =================================================
-                 NO PODCASTS
+                 EMPTY STATE
             ================================================== --}}
 
             <div class="empty-state">
 
-                <div class="empty-icon">
+                <i class="fas fa-podcast"></i>
 
-                    @if(request()->filled('search'))
+                <h3>
+                    No podcasts found
+                </h3>
 
-                        <i class="fas fa-search"></i>
-
-                    @elseif(request()->filled('categoryId'))
-
-                        <i class="fas fa-filter"></i>
-
-                    @else
-
-                        <i class="fas fa-podcast"></i>
-
-                    @endif
-
-                </div>
-
-
-                @if(request()->filled('search'))
-
-                    <h3>
-                        No Matching Podcasts
-                    </h3>
-
-                    <p>
-
-                        We couldn't find any approved podcasts
-                        matching
-
-                        <strong>
-                            "{{ request('search') }}"
-                        </strong>.
-
-                    </p>
-
-                @elseif(request()->filled('categoryId'))
-
-                    <h3>
-                        No Podcasts in This Category
-                    </h3>
-
-                    <p>
-                        There are currently no approved podcasts
-                        in this category.
-                    </p>
-
-                @else
-
-                    <h3>
-                        No Podcasts Found
-                    </h3>
-
-                    <p>
-                        There are currently no approved podcasts
-                        available for you.
-                    </p>
-
-                @endif
+                <p>
+                    Try changing your search or category filter.
+                </p>
 
             </div>
+
 
         @endif
 
