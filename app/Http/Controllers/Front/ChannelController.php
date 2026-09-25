@@ -58,5 +58,84 @@ class ChannelController extends Controller
             'image' => $imagePath, 
             'description' => $request->description, 
         ]); 
-        return redirect() ->route('channel.index') ->with( 'success', 'Your channel has been created successfully!' ); }
-}
+        return redirect() ->route('channel.index') ->with( 'success', 'Your channel has been created successfully!' ); 
+    }
+    // public function toggleFollowChannel($channel_id)
+    // {
+    //     $user = auth()->user();
+
+    //     if ($user->channels()->where('channel_id',$channel_id)->exists()){
+    //         $user->channels()->detach($channel_id);
+    //         $message='Channel Removed From Follow Successfully';
+    //     }else{
+    //         $user->channels()->attach($channel_id);
+    //         $message='Channel Added To Follow Successfully';
+    //     }
+    //     // return ApiResponse::sendResponse(200,$message,[]);
+    // }
+    // public function show($id) { $channel = Channel::with([ 'podcasts' => function ($query) { $query->where('approved', 1) ->latest(); } ])->findOrFail($id); $isFollowing = false; if (Auth::check()) { $isFollowing = $channel->followers() ->where('user_id', Auth::id()) ->exists(); } return view( 'front.pages.channels.show', compact( 'channel', 'isFollowing' ) ); } public function follow($id) { $channel = Channel::findOrFail($id); $channel->followers()->syncWithoutDetaching([ Auth::id() ]); return back()->with( 'success', 'You are now following this channel.' ); } public function unfollow($id) { $channel = Channel::findOrFail($id); $channel->followers()->detach( Auth::id() ); return back()->with( 'success', 'You unfollowed this channel.' ); }
+
+
+
+    public function show($id)
+    {
+        $channel = Channel::with([
+            'podcasts' => function ($query) {
+                $query->where('approved', 1)
+                    ->latest();
+            }
+        ])->findOrFail($id);
+
+        $isFollowing = false;
+
+        if (Auth::check()) {
+            $isFollowing = $channel->followers()
+                ->where('user_id', Auth::id())
+                ->exists();
+        }
+
+        return view(
+            'front.pages.channels.show',
+            compact(
+                'channel',
+                'isFollowing'
+            )
+        );
+    }
+
+
+    public function toggleFollow($id)
+    {
+        $channel = Channel::findOrFail($id);
+
+        // Don't allow following your own channel
+        if ($channel->user_id == auth()->id()) {
+            return back()->with('error', 'You cannot follow your own channel.');
+        }
+
+        $isFollowing = $channel->followers()
+            ->where('user_id', auth()->id())
+            ->exists();
+
+        if ($isFollowing) {
+
+            // Unfollow
+            $channel->followers()->detach(auth()->id());
+
+            $message = 'You unfollowed this channel.';
+
+        } else {
+
+            // Follow
+            $channel->followers()->syncWithoutDetaching([
+                auth()->id()
+            ]);
+
+            $message = 'You are now following this channel.';
+        }
+
+        return back()->with('success', $message);
+    }
+
+
+    }

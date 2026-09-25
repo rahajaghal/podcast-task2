@@ -433,15 +433,25 @@
 
                 {{-- Channel image --}}
 
+                
                 @if($podcast->channel && $podcast->channel->image)
 
-                    <img
-                        src="{{ asset('storage/' . $podcast->channel->image) }}"
-                        alt="{{ $podcast->channel->name }}"
-                        class="podcast-image"
+                    <a
+                        href="{{ route('channel.show', $podcast->channel->id) }}"
+                        title="View {{ $podcast->channel->name }}"
                     >
 
+                        <img
+                            src="{{ asset('storage/' . $podcast->channel->image) }}"
+                            alt="{{ $podcast->channel->name }}"
+                            class="podcast-image"
+                        >
+
+                    </a>
+
                 @else
+
+
 
                     <div class="podcast-placeholder">
 
@@ -461,17 +471,26 @@
                     </h1>
 
 
+
                     @if($podcast->channel)
 
-                        <div class="podcast-channel">
+                        <a
+                            href="{{ route('channel.show', $podcast->channel->id) }}"
+                            class="podcast-channel"
+                            style="text-decoration: none;"
+                        >
 
                             <i class="fas fa-microphone"></i>
 
                             {{ $podcast->channel->name }}
 
-                        </div>
+                            <i class="fas fa-arrow-right ml-1"></i>
+
+                        </a>
 
                     @endif
+
+
 
                 </div>
 

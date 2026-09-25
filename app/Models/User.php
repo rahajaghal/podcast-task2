@@ -60,4 +60,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Podcast::class,'favourites','user_id','podcast_id');
     }
+    public function followedChannels() {
+         return $this->belongsToMany( Channel::class, 'followers', 'user_id', 'channel_id' )->withTimestamps(); 
+        }
 }

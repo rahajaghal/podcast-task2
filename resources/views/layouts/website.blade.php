@@ -256,7 +256,7 @@
 
         /*
         |--------------------------------------------------------------------------
-        | AUTHENTICATED USER
+        | USER
         |--------------------------------------------------------------------------
         */
 
@@ -341,7 +341,7 @@
 
             z-index: 1050;
 
-            min-width: 180px;
+            min-width: 190px;
 
             padding: 7px;
 
@@ -355,6 +355,67 @@
                 0 15px 35px rgba(35, 24, 60, 0.12);
         }
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | USER DROPDOWN ITEMS
+        |--------------------------------------------------------------------------
+        */
+
+        .user-menu-item {
+            display: flex;
+
+            align-items: center;
+
+            width: 100%;
+
+            padding: 10px 12px;
+
+            border: 0;
+
+            border-radius: 8px;
+
+            background: transparent;
+
+            color: #45414e;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            text-align: left;
+
+            text-decoration: none !important;
+
+            cursor: pointer;
+
+            transition: background 0.2s ease;
+        }
+
+
+        .user-menu-item:hover {
+            background: var(--primary-light);
+
+            color: var(--primary);
+
+            text-decoration: none !important;
+        }
+
+
+        .user-menu-item i {
+            width: 20px;
+
+            margin-right: 8px;
+
+            text-align: center;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | LOGOUT
+        |--------------------------------------------------------------------------
+        */
 
         .logout-button {
             display: flex;
@@ -389,6 +450,448 @@
             background: #fff1f2;
 
             color: #c82333;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | NOTIFICATIONS
+        |--------------------------------------------------------------------------
+        */
+
+        .notification-wrapper {
+            position: relative;
+        }
+
+
+        .notification-button {
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            position: relative;
+
+            border: 0;
+
+            border-radius: 10px;
+
+            background: #f7f5fb;
+
+            color: #55515f;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease;
+        }
+
+
+        .notification-button:hover,
+        .notification-button.active {
+            background: #eee8fb;
+
+            color: var(--primary);
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CSS BELL ICON
+        |--------------------------------------------------------------------------
+        */
+
+        .notification-bell-css {
+            position: relative;
+
+            display: block;
+
+            width: 14px;
+            height: 15px;
+
+            border: 2px solid #55515f;
+
+            border-radius: 8px 8px 5px 5px;
+
+            border-bottom: 0;
+
+            transition: border-color 0.2s ease;
+        }
+
+
+        .notification-bell-css::before {
+            content: "";
+
+            position: absolute;
+
+            left: -3px;
+
+            bottom: -3px;
+
+            width: 16px;
+            height: 2px;
+
+            border-radius: 2px;
+
+            background: #55515f;
+
+            transition: background 0.2s ease;
+        }
+
+
+        .notification-bell-css::after {
+            content: "";
+
+            position: absolute;
+
+            left: 4px;
+
+            bottom: -6px;
+
+            width: 4px;
+            height: 3px;
+
+            border-radius: 0 0 4px 4px;
+
+            background: #55515f;
+
+            transition: background 0.2s ease;
+        }
+
+
+        .notification-button:hover .notification-bell-css,
+        .notification-button.active .notification-bell-css {
+            border-color: var(--primary);
+        }
+
+
+        .notification-button:hover .notification-bell-css::before,
+        .notification-button:hover .notification-bell-css::after,
+        .notification-button.active .notification-bell-css::before,
+        .notification-button.active .notification-bell-css::after {
+            background: var(--primary);
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | NOTIFICATION BADGE
+        |--------------------------------------------------------------------------
+        */
+
+        .notification-badge {
+            position: absolute;
+
+            top: -3px;
+            right: -3px;
+
+            min-width: 18px;
+            height: 18px;
+
+            padding: 0 4px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 20px;
+
+            background: #dc3545;
+
+            color: #fff;
+
+            border: 2px solid #fff;
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+            line-height: 1;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | NOTIFICATION DROPDOWN
+        |--------------------------------------------------------------------------
+        */
+
+        .notification-dropdown {
+            display: none;
+
+            position: absolute;
+
+            top: calc(100% + 10px);
+
+            right: 0;
+
+            width: 370px;
+
+            background: #fff;
+
+            border: 1px solid var(--border);
+
+            border-radius: 14px;
+
+            overflow: hidden;
+
+            z-index: 1100;
+
+            box-shadow:
+                0 15px 40px rgba(35, 24, 60, 0.14);
+        }
+
+
+        .notification-dropdown.show {
+            display: block;
+        }
+
+
+        .notification-header {
+            padding: 16px 17px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 10px;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+
+        .notification-header h6 {
+            margin: 0;
+
+            color: #292532;
+
+            font-size: 14px;
+
+            font-weight: 700;
+        }
+
+
+        .notification-header span {
+            display: block;
+
+            margin-top: 3px;
+
+            color: var(--text-muted);
+
+            font-size: 11px;
+        }
+
+
+        .mark-all-form {
+            margin: 0;
+        }
+
+
+        .mark-all-button {
+            border: 0;
+
+            background: transparent;
+
+            color: var(--primary);
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            padding: 0;
+
+            cursor: pointer;
+        }
+
+
+        .mark-all-button:hover {
+            text-decoration: underline;
+        }
+
+
+        .notification-list {
+            max-height: 390px;
+
+            overflow-y: auto;
+        }
+
+
+        .notification-item {
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 11px;
+
+            padding: 13px 16px;
+
+            border-bottom: 1px solid #f0edf4;
+
+            color: #45414e;
+
+            text-decoration: none !important;
+
+            transition: background 0.2s ease;
+        }
+
+
+        .notification-item:hover {
+            background: #faf8fd;
+
+            color: #45414e;
+
+            text-decoration: none !important;
+        }
+
+
+        .notification-item.unread {
+            background: #f8f4fc;
+        }
+
+
+        .notification-item.unread:hover {
+            background: #f2ebf8;
+        }
+
+
+        .notification-image {
+            width: 42px;
+            height: 42px;
+
+            min-width: 42px;
+
+            object-fit: cover;
+
+            border-radius: 50%;
+
+            border: 2px solid #eee5f4;
+        }
+
+
+        .notification-image-placeholder {
+            width: 42px;
+            height: 42px;
+
+            min-width: 42px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: var(--primary-light);
+
+            color: var(--primary);
+        }
+
+
+        .notification-content {
+            min-width: 0;
+
+            flex: 1;
+        }
+
+
+        .notification-text {
+            margin: 0;
+
+            color: #48434d;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+
+        .notification-text strong {
+            color: #292532;
+
+            font-weight: 700;
+        }
+
+
+        .notification-time {
+            display: block;
+
+            margin-top: 5px;
+
+            color: #8b8794;
+
+            font-size: 10px;
+        }
+
+
+        .notification-dot {
+            width: 7px;
+            height: 7px;
+
+            min-width: 7px;
+
+            margin-top: 6px;
+
+            border-radius: 50%;
+
+            background: var(--primary);
+        }
+
+
+        .notification-empty {
+            padding: 35px 20px;
+
+            text-align: center;
+
+            color: #8b8794;
+        }
+
+
+        .notification-empty i {
+            display: block;
+
+            margin-bottom: 10px;
+
+            font-size: 28px;
+
+            color: #d8cbe2;
+        }
+
+
+        .notification-empty p {
+            margin: 0;
+
+            font-size: 12px;
+        }
+
+
+        .notification-footer {
+            padding: 12px;
+
+            border-top: 1px solid var(--border);
+
+            text-align: center;
+        }
+
+
+        .notification-footer a {
+            color: var(--primary);
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            text-decoration: none;
+        }
+
+
+        .notification-footer a:hover {
+            text-decoration: underline;
         }
 
 
@@ -676,9 +1179,6 @@
         |--------------------------------------------------------------------------
         */
 
-  
-
-
         .social-link {
             width: 35px;
             height: 35px;
@@ -778,6 +1278,19 @@
                 margin-top: 5px;
 
                 display: inline-block;
+            }
+
+
+            .notification-dropdown {
+                position: fixed;
+
+                top: 70px;
+
+                left: 12px;
+
+                right: 12px;
+
+                width: auto;
             }
 
 
@@ -887,8 +1400,6 @@
                 <ul class="navbar-nav mr-auto website-nav">
 
 
-                    <!-- Podcasts -->
-
                     <li class="nav-item">
 
                         @auth
@@ -924,8 +1435,6 @@
 
                     @auth
 
-                        <!-- My Channel -->
-
                         <li class="nav-item">
 
                             <a
@@ -941,8 +1450,6 @@
 
                         </li>
 
-
-                        <!-- Favourites -->
 
                         <li class="nav-item">
 
@@ -973,11 +1480,275 @@
 
                     @auth
 
-                        <!-- User -->
 
-                        <li class="nav-item">
+                        <!-- =================================================
+                             NOTIFICATIONS
+                        ================================================== -->
+
+                        @php
+
+                            $unreadCount = auth()->user()
+                                ->unreadNotifications()
+                                ->count();
+
+                            $recentNotifications = auth()->user()
+                                ->notifications()
+                                ->latest()
+                                ->take(5)
+                                ->get();
+
+                        @endphp
+
+
+                        <li class="nav-item d-flex align-items-center">
+
+                            <div class="notification-wrapper">
+
+
+                                <button
+                                    type="button"
+                                    class="notification-button"
+                                    id="notificationButton"
+                                    aria-label="Notifications"
+                                >
+
+                                    <!-- CSS notification bell -->
+
+                                    <span class="notification-bell-css"></span>
+
+
+                                    @if($unreadCount > 0)
+
+                                        <span class="notification-badge">
+
+                                            {{ $unreadCount > 99 ? '99+' : $unreadCount }}
+
+                                        </span>
+
+                                    @endif
+
+                                </button>
+
+
+                                <!-- =================================================
+                                     NOTIFICATION DROPDOWN
+                                ================================================== -->
+
+                                <div
+                                    class="notification-dropdown"
+                                    id="notificationDropdown"
+                                >
+
+
+                                    <!-- Header -->
+
+                                    <div class="notification-header">
+
+                                        <div>
+
+                                            <h6>
+                                                Notifications
+                                            </h6>
+
+
+                                            @if($unreadCount > 0)
+
+                                                <span>
+
+                                                    {{ $unreadCount }}
+
+                                                    {{ Str::plural(
+                                                        'unread notification',
+                                                        $unreadCount
+                                                    ) }}
+
+                                                </span>
+
+                                            @else
+
+                                                <span>
+                                                    You are all caught up
+                                                </span>
+
+                                            @endif
+
+                                        </div>
+
+
+                                        @if($unreadCount > 0)
+
+                                            <form
+                                                action="{{ route('notifications.markAllAsRead') }}"
+                                                method="POST"
+                                                class="mark-all-form"
+                                            >
+
+                                                @csrf
+
+                                                <button
+                                                    type="submit"
+                                                    class="mark-all-button"
+                                                >
+
+                                                    Mark all as read
+
+                                                </button>
+
+                                            </form>
+
+                                        @endif
+
+                                    </div>
+
+
+                                    <!-- Notification list -->
+
+                                    <div class="notification-list">
+
+
+                                        @forelse(
+                                            $recentNotifications
+                                            as $notification
+                                        )
+
+
+                                            @php
+
+                                                $data = $notification->data;
+
+                                                $channelImage =
+                                                    $data['channel_image'] ?? null;
+
+                                            @endphp
+
+
+                                            <a
+                                                href="{{ route(
+                                                    'notifications.show',
+                                                    $notification->id
+                                                ) }}"
+                                                class="notification-item
+                                                    {{ is_null($notification->read_at)
+                                                        ? 'unread'
+                                                        : '' }}"
+                                            >
+
+
+                                                @if($channelImage)
+
+                                                    <img
+                                                        src="{{ asset(
+                                                            'storage/' .
+                                                            $channelImage
+                                                        ) }}"
+                                                        alt="Channel"
+                                                        class="notification-image"
+                                                    >
+
+                                                @else
+
+                                                    <div class="notification-image-placeholder">
+
+                                                        <i class="fas fa-podcast"></i>
+
+                                                    </div>
+
+                                                @endif
+
+
+                                                <div class="notification-content">
+
+                                                    <p class="notification-text">
+
+                                                        <strong>
+                                                            {{ $data['channel_name']
+                                                                ?? 'A channel' }}
+                                                        </strong>
+
+                                                        published a new podcast:
+
+                                                        <strong>
+                                                            {{ $data['podcast_title']
+                                                                ?? 'New podcast' }}
+                                                        </strong>
+
+                                                    </p>
+
+
+                                                    <span class="notification-time">
+
+                                                        <i class="far fa-clock"></i>
+
+                                                        {{ $notification->created_at
+                                                            ->diffForHumans() }}
+
+                                                    </span>
+
+                                                </div>
+
+
+                                                @if(is_null($notification->read_at))
+
+                                                    <span class="notification-dot"></span>
+
+                                                @endif
+
+
+                                            </a>
+
+
+                                        @empty
+
+
+                                            <div class="notification-empty">
+
+                                                <i class="far fa-bell-slash"></i>
+
+                                                <p>
+                                                    No notifications yet.
+                                                </p>
+
+                                            </div>
+
+
+                                        @endforelse
+
+
+                                    </div>
+
+
+                                    <!-- Footer -->
+
+                                    <div class="notification-footer">
+
+                                        <a
+                                            href="{{ route('notifications.index') }}"
+                                        >
+
+                                            View all notifications
+
+                                            <i class="fas fa-arrow-right ml-1"></i>
+
+                                        </a>
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        </li>
+
+
+                        <!-- =================================================
+                             USER
+                        ================================================== -->
+
+                        <li class="nav-item ml-2">
 
                             <details class="user-dropdown">
+
 
                                 <summary
                                     class="nav-link user-dropdown-button"
@@ -993,14 +1764,58 @@
                                     {{ Auth::user()->name }}
 
 
-                                    <i class="fas fa-chevron-down ml-2"
-                                       style="font-size: 9px;">
-                                    </i>
+                                    <i
+                                        class="fas fa-chevron-down ml-2"
+                                        style="font-size: 9px;"
+                                    ></i>
 
                                 </summary>
 
 
+                                <!-- USER DROPDOWN -->
+
                                 <div class="user-dropdown-menu">
+
+
+                            
+
+
+                                    @if(Route::has('channel.index'))
+
+                                        <a
+                                            href="{{ route('channel.index') }}"
+                                            class="user-menu-item"
+                                        >
+
+                                            <i class="fas fa-broadcast-tower"></i>
+
+                                            My Channel
+
+                                        </a>
+
+                                    @endif
+
+
+                                    <a
+                                        href="{{ route('notifications.index') }}"
+                                        class="user-menu-item"
+                                    >
+
+                                        <i class="fas fa-bell"></i>
+
+                                        Notifications
+
+                                    </a>
+
+
+                                    <div
+                                        style="
+                                            height:1px;
+                                            background:#ebe7f3;
+                                            margin:5px 0;
+                                        "
+                                    ></div>
+
 
                                     <form
                                         method="POST"
@@ -1008,7 +1823,6 @@
                                     >
 
                                         @csrf
-
 
                                         <button
                                             type="submit"
@@ -1023,7 +1837,9 @@
 
                                     </form>
 
+
                                 </div>
+
 
                             </details>
 
@@ -1033,7 +1849,9 @@
                     @else
 
 
-                        <!-- Login -->
+                        <!-- =================================================
+                             LOGIN
+                        ================================================== -->
 
                         @if (Route::has('login'))
 
@@ -1053,7 +1871,9 @@
                         @endif
 
 
-                        <!-- Register -->
+                        <!-- =================================================
+                             REGISTER
+                        ================================================== -->
 
                         @if (Route::has('register'))
 
@@ -1168,9 +1988,7 @@
             <div class="row">
 
 
-                <!-- =================================================
-                     ABOUT
-                ================================================== -->
+                <!-- ABOUT -->
 
                 <div class="col-lg-5 col-md-6 footer-column">
 
@@ -1205,9 +2023,7 @@
                 </div>
 
 
-                <!-- =================================================
-                     EXPLORE
-                ================================================== -->
+                <!-- EXPLORE -->
 
                 <div class="col-lg-3 col-md-3 col-6 footer-column">
 
@@ -1259,9 +2075,7 @@
                 </div>
 
 
-                <!-- =================================================
-                     ACCOUNT
-                ================================================== -->
+                <!-- ACCOUNT -->
 
                 <div class="col-lg-2 col-md-3 col-6 footer-column">
 
@@ -1325,9 +2139,7 @@
                 </div>
 
 
-                <!-- =================================================
-                     MESSAGE
-                ================================================== -->
+                <!-- MESSAGE -->
 
                 <div class="col-lg-2 col-md-12 footer-column">
 
@@ -1358,16 +2170,12 @@
             </div>
 
 
-            <!-- =================================================
-                 DIVIDER
-            ================================================== -->
+            <!-- DIVIDER -->
 
             <hr class="footer-divider">
 
 
-            <!-- =================================================
-                 BOTTOM
-            ================================================== -->
+            <!-- BOTTOM -->
 
             <div class="footer-bottom">
 
@@ -1385,10 +2193,12 @@
                 <span>
 
                     Made for people who
+
                     <i
                         class="fas fa-heart"
                         style="color:#8b5cf6;"
                     ></i>
+
                     great conversations.
 
                 </span>
@@ -1421,6 +2231,107 @@
 <script
     src="{{ asset('dashboard/dist/js/adminlte.min.js') }}"
 ></script>
+
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | NOTIFICATION DROPDOWN
+    |--------------------------------------------------------------------------
+    */
+
+    const notificationButton =
+        document.getElementById('notificationButton');
+
+    const notificationDropdown =
+        document.getElementById('notificationDropdown');
+
+
+    if (notificationButton && notificationDropdown) {
+
+        notificationButton.addEventListener('click', function (event) {
+
+            event.stopPropagation();
+
+
+            notificationDropdown.classList.toggle('show');
+
+
+            notificationButton.classList.toggle(
+                'active',
+                notificationDropdown.classList.contains('show')
+            );
+
+        });
+
+
+        notificationDropdown.addEventListener(
+            'click',
+            function (event) {
+
+                event.stopPropagation();
+
+            }
+        );
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | CLOSE NOTIFICATION WHEN CLICKING OUTSIDE
+    |--------------------------------------------------------------------------
+    */
+
+    document.addEventListener('click', function () {
+
+        if (notificationDropdown) {
+
+            notificationDropdown.classList.remove('show');
+
+        }
+
+
+        if (notificationButton) {
+
+            notificationButton.classList.remove('active');
+
+        }
+
+    });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | USER DETAILS DROPDOWN
+    |--------------------------------------------------------------------------
+    */
+
+    const userDropdown =
+        document.querySelector('.user-dropdown');
+
+
+    if (userDropdown) {
+
+        document.addEventListener('click', function (event) {
+
+            if (!userDropdown.contains(event.target)) {
+
+                userDropdown.removeAttribute('open');
+
+            }
+
+        });
+
+    }
+
+});
+
+</script>
 
 
 @stack('scripts')

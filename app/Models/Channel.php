@@ -14,4 +14,8 @@ class Channel extends Model
     public function podcasts(){
         return $this->hasMany(Podcast::class);
     }
+    public function followers() {
+        return $this->belongsToMany( User::class, 'followers', 'channel_id', 'user_id' )
+        ->withTimestamps(); 
+    }
 }
