@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="utf-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,160 +11,1072 @@
         {{ config('app.name', 'Podcast') }} | @yield('title')
     </title>
 
+
     <!-- Google Font -->
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    >
+
 
     <!-- Font Awesome -->
-    <link rel="stylesheet"
-          href="{{ asset('dashboard/plugins/fontawesome-free/css/all.min.css') }}">
+    <link
+        rel="stylesheet"
+        href="{{ asset('dashboard/plugins/fontawesome-free/css/all.min.css') }}"
+    >
 
-    <!-- Bootstrap / AdminLTE -->
-    <link rel="stylesheet"
-          href="{{ asset('dashboard/dist/css/adminlte.min.css') }}">
+
+    <!-- AdminLTE -->
+    <link
+        rel="stylesheet"
+        href="{{ asset('dashboard/dist/css/adminlte.min.css') }}"
+    >
+
 
     @stack('styles')
 
 
+    <style>
+
+        /*
+        |--------------------------------------------------------------------------
+        | GLOBAL
+        |--------------------------------------------------------------------------
+        */
+
+        :root {
+            --primary: #6f42c1;
+            --primary-dark: #59339d;
+            --primary-light: #f3edff;
+
+            --text-dark: #202124;
+            --text-muted: #6b7280;
+
+            --background: #f8f7fc;
+
+            --border: #ebe7f3;
+
+            --white: #ffffff;
+        }
+
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+
+            width: 100%;
+            min-height: 100%;
+
+            font-family: 'Inter', sans-serif;
+
+            background: var(--background);
+
+            color: var(--text-dark);
+        }
+
+
+        body {
+            overflow-x: hidden;
+        }
+
+
+        .wrapper {
+            min-height: 100vh;
+
+            display: flex;
+            flex-direction: column;
+
+            background: var(--background);
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | HEADER
+        |--------------------------------------------------------------------------
+        */
+
+        .main-header {
+            width: 100%;
+
+            margin-left: 0 !important;
+
+            border: 0 !important;
+
+            background: rgba(255, 255, 255, 0.96) !important;
+
+            box-shadow: 0 1px 0 rgba(31, 41, 55, 0.06);
+
+            position: relative;
+
+            z-index: 1000;
+        }
+
+
+        .main-header .container {
+            width: 100%;
+
+            max-width: 1180px;
+
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | BRAND
+        |--------------------------------------------------------------------------
+        */
+
+        .website-brand {
+            display: flex;
+
+            align-items: center;
+
+            text-decoration: none !important;
+
+            padding: 8px 0;
+        }
+
+
+        .website-brand:hover {
+            text-decoration: none;
+        }
+
+
+        .brand-logo {
+            width: 42px;
+            height: 42px;
+
+            border-radius: 13px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7c4dff,
+                    #6f42c1
+                );
+
+            color: #fff;
+
+            box-shadow:
+                0 7px 18px rgba(111, 66, 193, 0.25);
+
+            margin-right: 11px;
+
+            font-size: 19px;
+        }
+
+
+        .brand-content {
+            display: flex;
+
+            flex-direction: column;
+
+            line-height: 1.1;
+        }
+
+
+        .brand-name {
+            font-size: 18px;
+
+            font-weight: 800;
+
+            color: #202124;
+
+            letter-spacing: -0.4px;
+        }
+
+
+        .brand-tagline {
+            font-size: 10px;
+
+            color: #8b8794;
+
+            font-weight: 500;
+
+            margin-top: 3px;
+
+            letter-spacing: 0.3px;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | NAVIGATION
+        |--------------------------------------------------------------------------
+        */
+
+        .website-nav .nav-link {
+            position: relative;
+
+            color: #686572 !important;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            padding: 9px 14px !important;
+
+            margin: 0 2px;
+
+            border-radius: 9px;
+
+            transition:
+                color 0.2s ease,
+                background 0.2s ease;
+        }
+
+
+        .website-nav .nav-link:hover {
+            color: var(--primary) !important;
+
+            background: var(--primary-light);
+        }
+
+
+        .website-nav .nav-link i {
+            font-size: 13px;
+
+            opacity: 0.85;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | AUTHENTICATED USER
+        |--------------------------------------------------------------------------
+        */
+
+        .user-dropdown {
+            position: relative;
+        }
+
+
+        .user-dropdown summary {
+            list-style: none;
+        }
+
+
+        .user-dropdown summary::-webkit-details-marker {
+            display: none;
+        }
+
+
+        .user-dropdown-button {
+            display: flex;
+
+            align-items: center;
+
+            cursor: pointer;
+
+            padding: 6px 10px 6px 7px !important;
+
+            border-radius: 30px;
+
+            background: #f7f5fb;
+
+            color: #45414e !important;
+
+            font-weight: 600;
+
+            transition: all 0.2s ease;
+        }
+
+
+        .user-dropdown-button:hover {
+            background: #eee8fb;
+
+            color: var(--primary) !important;
+        }
+
+
+        .user-icon {
+            width: 31px;
+            height: 31px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7c4dff,
+                    #6f42c1
+                );
+
+            color: white;
+
+            margin-right: 8px;
+
+            font-size: 12px;
+
+            box-shadow:
+                0 3px 8px rgba(111, 66, 193, 0.2);
+        }
+
+
+        .user-dropdown-menu {
+            position: absolute;
+
+            top: calc(100% + 9px);
+
+            right: 0;
+
+            z-index: 1050;
+
+            min-width: 180px;
+
+            padding: 7px;
+
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 15px 35px rgba(35, 24, 60, 0.12);
+        }
+
+
+        .logout-button {
+            display: flex;
+
+            align-items: center;
+
+            width: 100%;
+
+            padding: 10px 12px;
+
+            border: 0;
+
+            border-radius: 8px;
+
+            background: transparent;
+
+            color: #dc3545;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            text-align: left;
+
+            cursor: pointer;
+
+            transition: background 0.2s ease;
+        }
+
+
+        .logout-button:hover {
+            background: #fff1f2;
+
+            color: #c82333;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | GUEST BUTTONS
+        |--------------------------------------------------------------------------
+        */
+
+        .guest-login-button {
+            color: #655d70 !important;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            padding: 8px 15px !important;
+
+            border-radius: 9px;
+        }
+
+
+        .guest-login-button:hover {
+            color: var(--primary) !important;
+
+            background: var(--primary-light);
+        }
+
+
+        .guest-register-button {
+            background:
+                linear-gradient(
+                    135deg,
+                    #7c4dff,
+                    #6f42c1
+                );
+
+            color: #fff !important;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            border-radius: 9px;
+
+            padding: 9px 17px !important;
+
+            margin-left: 4px;
+
+            box-shadow:
+                0 5px 14px rgba(111, 66, 193, 0.20);
+        }
+
+
+        .guest-register-button:hover {
+            color: #fff !important;
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 7px 18px rgba(111, 66, 193, 0.28);
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CONTENT
+        |--------------------------------------------------------------------------
+        */
+
+        .content-wrapper {
+            width: 100%;
+
+            margin-left: 0 !important;
+
+            flex: 1;
+
+            background: var(--background);
+        }
+
+
+        .content-wrapper > .content {
+            padding: 0;
+        }
+
+
+        .content-wrapper .container {
+            width: 100%;
+
+            max-width: 1180px;
+
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | BREADCRUMB
+        |--------------------------------------------------------------------------
+        */
+
+        .content-header {
+            padding: 25px 0 10px;
+        }
+
+
+        .content-header h1 {
+            font-size: 25px;
+
+            font-weight: 800;
+
+            color: #292532;
+        }
+
+
+        .breadcrumb {
+            background: transparent;
+
+            margin: 0;
+
+            padding: 8px 0;
+
+            font-size: 13px;
+        }
+
+
+        .breadcrumb-item a {
+            color: var(--primary);
+
+            font-weight: 600;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | FOOTER
+        |--------------------------------------------------------------------------
+        */
+
+        .main-footer {
+            width: 100%;
+
+            margin-left: 0 !important;
+
+            border: 0 !important;
+
+            padding: 55px 0 25px;
+
+            background: #201b2d;
+
+            color: #fff;
+        }
+
+
+        .main-footer .container {
+            width: 100%;
+
+            max-width: 1180px;
+
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | FOOTER BRAND
+        |--------------------------------------------------------------------------
+        */
+
+        .footer-brand {
+            display: flex;
+
+            align-items: center;
+
+            margin-bottom: 17px;
+        }
+
+
+        .footer-logo {
+            width: 43px;
+            height: 43px;
+
+            border-radius: 13px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #8b5cf6,
+                    #6f42c1
+                );
+
+            color: #fff;
+
+            margin-right: 11px;
+
+            font-size: 18px;
+        }
+
+
+        .footer-brand-name {
+            font-size: 18px;
+
+            font-weight: 800;
+
+            color: #fff;
+        }
+
+
+        .footer-description {
+            max-width: 430px;
+
+            color: #aaa4b6;
+
+            font-size: 13px;
+
+            line-height: 1.8;
+
+            margin-bottom: 20px;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | FOOTER HEADINGS
+        |--------------------------------------------------------------------------
+        */
+
+        .footer-heading {
+            color: #fff;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.7px;
+
+            margin-bottom: 17px;
+        }
+
+
+        .footer-links {
+            list-style: none;
+
+            padding: 0;
+
+            margin: 0;
+        }
+
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+
+        .footer-links a {
+            color: #aaa4b6;
+
+            font-size: 13px;
+
+            text-decoration: none;
+
+            transition: color 0.2s ease;
+        }
+
+
+        .footer-links a:hover {
+            color: #fff;
+
+            text-decoration: none;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | SOCIAL ICONS
+        |--------------------------------------------------------------------------
+        */
+
+  
+
+
+        .social-link {
+            width: 35px;
+            height: 35px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 9px;
+
+            background: rgba(255,255,255,0.07);
+
+            color: #c5bfce;
+
+            text-decoration: none;
+
+            transition: all 0.2s ease;
+        }
+
+
+        .social-link:hover {
+            background: var(--primary);
+
+            color: #fff;
+
+            transform: translateY(-2px);
+
+            text-decoration: none;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | FOOTER BOTTOM
+        |--------------------------------------------------------------------------
+        */
+
+        .footer-divider {
+            border: 0;
+
+            border-top: 1px solid rgba(255,255,255,0.08);
+
+            margin: 38px 0 20px;
+        }
+
+
+        .footer-bottom {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            color: #858090;
+
+            font-size: 12px;
+        }
+
+
+        .footer-bottom a {
+            color: #a79faf;
+
+            text-decoration: none;
+        }
+
+
+        .footer-bottom a:hover {
+            color: #fff;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | MOBILE
+        |--------------------------------------------------------------------------
+        */
+
+        @media (max-width: 767.98px) {
+
+            .main-header .container {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+
+            .website-nav .nav-link {
+                margin: 2px 0;
+
+                padding: 10px 12px !important;
+            }
+
+
+            .guest-register-button {
+                margin-left: 0;
+
+                margin-top: 5px;
+
+                display: inline-block;
+            }
+
+
+            .main-footer {
+                padding: 40px 0 20px;
+            }
+
+
+            .footer-column {
+                margin-bottom: 30px;
+            }
+
+
+            .footer-bottom {
+                flex-direction: column;
+
+                gap: 8px;
+
+                text-align: center;
+            }
+
+        }
+
+    </style>
 
 </head>
 
-<body >
+
+<body>
 
 <div class="wrapper">
 
-    <!-- =========================
+
+    <!-- =========================================================
          HEADER
-    ========================== -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light border-bottom">
+    ========================================================== -->
+
+    <nav class="main-header navbar navbar-expand-md">
 
         <div class="container">
 
-            <!-- Logo / Website Name -->
-            <a href="{{ url('/') }}" class="navbar-brand">
-                <i class="fas fa-podcast text-primary mr-2"></i>
 
-                <span class="brand-text font-weight-bold">
-                    {{ config('app.name', 'Podcast') }}
+            <!-- =====================================================
+                 BRAND
+            ====================================================== -->
+
+            <a
+                href="{{ url('/') }}"
+                class="website-brand"
+            >
+
+                <span class="brand-logo">
+
+                    <i class="fas fa-headphones-alt"></i>
+
                 </span>
+
+
+                <span class="brand-content">
+
+                    <span class="brand-name">
+                        Haly
+                    </span>
+
+                    <span class="brand-tagline">
+                        STORIES WORTH HEARING
+                    </span>
+
+                </span>
+
             </a>
 
 
-            <!-- Mobile menu button -->
-            <button class="navbar-toggler"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#websiteNavbar"
-                    aria-controls="websiteNavbar"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation">
+            <!-- =====================================================
+                 MOBILE BUTTON
+            ====================================================== -->
+
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#websiteNavbar"
+                aria-controls="websiteNavbar"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
 
                 <span class="navbar-toggler-icon"></span>
 
             </button>
 
 
-            <!-- Navigation -->
-            <div class="collapse navbar-collapse" id="websiteNavbar">
+            <!-- =====================================================
+                 NAVIGATION
+            ====================================================== -->
 
-                <!-- Left menu -->
-                <ul class="navbar-nav mr-auto">
+            <div
+                class="collapse navbar-collapse"
+                id="websiteNavbar"
+            >
+
+
+                <!-- =================================================
+                     LEFT MENU
+                ================================================== -->
+
+                <ul class="navbar-nav mr-auto website-nav">
+
+
+                    <!-- Podcasts -->
 
                     <li class="nav-item">
-                        <a href="{{ url('/') }}"
-                           class="nav-link">
 
-                            <i class="fas fa-home mr-1"></i>
-                            Home
+                        @auth
 
-                        </a>
+                            <a
+                                href="{{ route('dashboard') }}"
+                                class="nav-link"
+                            >
+
+                                <i class="fas fa-compass mr-1"></i>
+
+                                Discover
+
+                            </a>
+
+                        @else
+
+                            <a
+                                href="{{ route('guest.index') }}"
+                                class="nav-link"
+                            >
+
+                                <i class="fas fa-compass mr-1"></i>
+
+                                Discover
+
+                            </a>
+
+                        @endauth
+
                     </li>
 
 
-                    <li class="nav-item">
-                        <a href="{{ route('podcasts.index') }}"
-                           class="nav-link">
+                    @auth
 
-                            <i class="fas fa-microphone mr-1"></i>
-                            Podcasts
+                        <!-- My Channel -->
 
-                        </a>
-                    </li>
+                        <li class="nav-item">
 
+                            <a
+                                href="{{ route('channel.index') }}"
+                                class="nav-link"
+                            >
 
-                    <li class="nav-item">
-                        <a href="{{ route('channel.index') }}"
-                           class="nav-link">
+                                <i class="fas fa-broadcast-tower mr-1"></i>
 
-                            <i class="fas fa-info-circle mr-1"></i>
-                            My Channel
+                                My Channel
 
-                        </a>
-                    </li>
+                            </a>
+
+                        </li>
 
 
-                    <li class="nav-item">
-                        <a href="{{ route('podcasts.favourite') }}"
-                           class="nav-link">
+                        <!-- Favourites -->
 
-                            <i class="fas fa-envelope mr-1"></i>
-                            Favourites
+                        <li class="nav-item">
 
-                        </a>
-                    </li>
+                            <a
+                                href="{{ route('podcasts.favourite') }}"
+                                class="nav-link"
+                            >
+
+                                <i class="far fa-heart mr-1"></i>
+
+                                Favourites
+
+                            </a>
+
+                        </li>
+
+                    @endauth
 
                 </ul>
 
 
-                <!-- Right menu -->
-                {{-- <!-- Right navbar links -->
-                <ul class="navbar-nav ml-auto">
+                <!-- =================================================
+                     RIGHT MENU
+                ================================================== -->
 
-                <!-- User Dropdown -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link d-flex align-items-center" data-toggle="dropdown" href="#">
-                        <span class="badge badge-primary p-2 rounded-circle mr-2">
-                            <i class="fas fa-user"></i>
-                        </span>
-                        {{ Auth::user()->name }}
-                    </a>
+                <ul class="navbar-nav ml-auto website-nav">
 
-                    <div class="dropdown-menu dropdown-menu-right">
 
-                    <!-- Logout -->
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button class="dropdown-item text-danger">
-                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
-                        </button>
-                    </form>
+                    @auth
 
-                    </div>
-                </li>
+                        <!-- User -->
 
-                </ul> --}}
+                        <li class="nav-item">
 
-                <!-- Right navbar links --> 
-                <ul class="navbar-nav ml-auto"> 
-                    @auth 
-                    <li class="nav-item"> 
-                        <details class="user-dropdown"> 
-                            <!-- User Name --> 
-                            <summary class="nav-link user-dropdown-button"> 
-                                <span class="user-icon"> <i class="fas fa-user"></i> </span> 
-                                {{ Auth::user()->name }} 
-                                    <i class="fas fa-angle-down ml-2"></i> 
-                            </summary> 
-                            <!-- Dropdown --> 
-                            <div class="user-dropdown-menu"> 
-                                <form method="POST" action="{{ route('logout') }}"> 
-                                    @csrf 
-                                    <button type="submit" class="logout-button"> <i class="fas fa-sign-out-alt mr-2"></i> Logout </button> 
-                                </form> 
-                            </div> 
-                        </details> 
-                    </li> 
-                    @endauth 
+                            <details class="user-dropdown">
+
+                                <summary
+                                    class="nav-link user-dropdown-button"
+                                >
+
+                                    <span class="user-icon">
+
+                                        <i class="fas fa-user"></i>
+
+                                    </span>
+
+
+                                    {{ Auth::user()->name }}
+
+
+                                    <i class="fas fa-chevron-down ml-2"
+                                       style="font-size: 9px;">
+                                    </i>
+
+                                </summary>
+
+
+                                <div class="user-dropdown-menu">
+
+                                    <form
+                                        method="POST"
+                                        action="{{ route('logout') }}"
+                                    >
+
+                                        @csrf
+
+
+                                        <button
+                                            type="submit"
+                                            class="logout-button"
+                                        >
+
+                                            <i class="fas fa-sign-out-alt mr-2"></i>
+
+                                            Logout
+
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </details>
+
+                        </li>
+
+
+                    @else
+
+
+                        <!-- Login -->
+
+                        @if (Route::has('login'))
+
+                            <li class="nav-item">
+
+                                <a
+                                    href="{{ route('login') }}"
+                                    class="nav-link guest-login-button"
+                                >
+
+                                    Login
+
+                                </a>
+
+                            </li>
+
+                        @endif
+
+
+                        <!-- Register -->
+
+                        @if (Route::has('register'))
+
+                            <li class="nav-item">
+
+                                <a
+                                    href="{{ route('register') }}"
+                                    class="nav-link guest-register-button"
+                                >
+
+                                    <i class="fas fa-user-plus mr-1"></i>
+
+                                    Join Free
+
+                                </a>
+
+                            </li>
+
+                        @endif
+
+                    @endauth
+
+
                 </ul>
 
             </div>
@@ -171,16 +1084,15 @@
         </div>
 
     </nav>
-    <!-- /.main-header -->
 
 
-    <!-- =========================
+    <!-- =========================================================
          MAIN CONTENT
-    ========================== -->
+    ========================================================== -->
 
     <div class="content-wrapper">
 
-        <!-- Content Header -->
+
         @hasSection('breadcrumb')
 
             <div class="content-header">
@@ -192,7 +1104,9 @@
                         <div class="col-sm-6">
 
                             <h1 class="m-0">
+
                                 @yield('title')
+
                             </h1>
 
                         </div>
@@ -203,10 +1117,13 @@
                             <ol class="breadcrumb float-sm-right">
 
                                 <li class="breadcrumb-item">
+
                                     <a href="{{ url('/') }}">
                                         Home
                                     </a>
+
                                 </li>
+
 
                                 @yield('breadcrumb')
 
@@ -221,10 +1138,10 @@
             </div>
 
         @endif
-        <!-- /.content-header -->
 
 
-        <!-- Main Content -->
+        <!-- Main content -->
+
         <main class="content">
 
             <div class="container">
@@ -234,171 +1151,281 @@
             </div>
 
         </main>
-        <!-- /.content -->
+
 
     </div>
-    <!-- /.content-wrapper -->
 
 
-    <!-- =========================
+    <!-- =========================================================
          FOOTER
-    ========================== -->
+    ========================================================== -->
 
     <footer class="main-footer">
 
         <div class="container">
 
+
             <div class="row">
 
-                <!-- About -->
-                <div class="col-md-6">
 
-                    <h5>
-                        <i class="fas fa-podcast text-primary mr-2"></i>
-                        {{ config('app.name', 'Podcast') }}
-                    </h5>
+                <!-- =================================================
+                     ABOUT
+                ================================================== -->
 
-                    <p class="text-muted mb-0">
-                        Discover interesting podcasts,
-                        listen to your favorite episodes,
-                        and enjoy great content.
+                <div class="col-lg-5 col-md-6 footer-column">
+
+                    <div class="footer-brand">
+
+                        <span class="footer-logo">
+
+                            <i class="fas fa-headphones-alt"></i>
+
+                        </span>
+
+
+                        <span class="footer-brand-name">
+
+                            Haly
+
+                        </span>
+
+                    </div>
+
+
+                    <p class="footer-description">
+
+                        A place to discover thoughtful conversations,
+                        inspiring stories, and voices worth listening to.
+                        Find something interesting, press play,
+                        and enjoy the journey.
+
+                    </p>
+
+
+                </div>
+
+
+                <!-- =================================================
+                     EXPLORE
+                ================================================== -->
+
+                <div class="col-lg-3 col-md-3 col-6 footer-column">
+
+                    <h6 class="footer-heading">
+                        Explore
+                    </h6>
+
+
+                    <ul class="footer-links">
+
+                        <li>
+
+                            @auth
+
+                                <a href="{{ route('dashboard') }}">
+                                    Discover Podcasts
+                                </a>
+
+                            @else
+
+                                <a href="{{ route('guest.index') }}">
+                                    Discover Podcasts
+                                </a>
+
+                            @endauth
+
+                        </li>
+
+
+                        <li>
+
+                            <a href="{{ route('podcasts.tag', 1) }}">
+                                Categories
+                            </a>
+
+                        </li>
+
+
+                        <li>
+
+                            <a href="{{ url('/') }}">
+                                Home
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <!-- =================================================
+                     ACCOUNT
+                ================================================== -->
+
+                <div class="col-lg-2 col-md-3 col-6 footer-column">
+
+                    <h6 class="footer-heading">
+                        Account
+                    </h6>
+
+
+                    <ul class="footer-links">
+
+                        @auth
+
+                            <li>
+
+                                <a href="{{ route('channel.index') }}">
+                                    My Channel
+                                </a>
+
+                            </li>
+
+
+                            <li>
+
+                                <a href="{{ route('podcasts.favourite') }}">
+                                    Favourites
+                                </a>
+
+                            </li>
+
+                        @else
+
+                            @if (Route::has('login'))
+
+                                <li>
+
+                                    <a href="{{ route('login') }}">
+                                        Login
+                                    </a>
+
+                                </li>
+
+                            @endif
+
+
+                            @if (Route::has('register'))
+
+                                <li>
+
+                                    <a href="{{ route('register') }}">
+                                        Create Account
+                                    </a>
+
+                                </li>
+
+                            @endif
+
+                        @endauth
+
+                    </ul>
+
+                </div>
+
+
+                <!-- =================================================
+                     MESSAGE
+                ================================================== -->
+
+                <div class="col-lg-2 col-md-12 footer-column">
+
+                    <h6 class="footer-heading">
+                        Listen & Share
+                    </h6>
+
+
+                    <p
+                        style="
+                            color:#aaa4b6;
+                            font-size:13px;
+                            line-height:1.7;
+                            margin:0;
+                        "
+                    >
+
+                        Discover new voices,
+                        follow your interests,
+                        and share the conversations
+                        that matter to you.
+
                     </p>
 
                 </div>
 
 
-                <!-- Links -->
-                <div class="col-md-6 text-md-right">
-
-                    <a href="{{ url('/') }}"
-                       class="text-muted mr-3">
-                        Home
-                    </a>
-
-                    <a href="#about"
-                       class="text-muted mr-3">
-                        About
-                    </a>
-
-                    <a href="#contact"
-                       class="text-muted">
-                        Contact
-                    </a>
-
-                </div>
-
             </div>
 
 
-            <hr>
+            <!-- =================================================
+                 DIVIDER
+            ================================================== -->
+
+            <hr class="footer-divider">
 
 
-            <div class="row">
+            <!-- =================================================
+                 BOTTOM
+            ================================================== -->
 
-                <div class="col-md-6">
+            <div class="footer-bottom">
 
-                    <strong>
-                        Copyright &copy; {{ date('Y') }}
-                        <a href="{{ url('/') }}">
-                            {{ config('app.name', 'Podcast') }}
-                        </a>.
-                    </strong>
+                <span>
 
-                    All rights reserved.
+                    &copy; {{ date('Y') }}
 
-                </div>
+                    Haly
+
+                    . All rights reserved.
+
+                </span>
 
 
-                <div class="col-md-6 text-md-right">
+                <span>
 
-                    <span class="text-muted">
-                        Podcast Platform
-                    </span>
+                    Made for people who
+                    <i
+                        class="fas fa-heart"
+                        style="color:#8b5cf6;"
+                    ></i>
+                    great conversations.
 
-                </div>
+                </span>
 
             </div>
+
 
         </div>
 
     </footer>
-    <!-- /.main-footer -->
+
 
 </div>
-<!-- ./wrapper -->
 
 
-<!-- =========================
+<!-- =========================================================
      SCRIPTS
-========================== -->
+========================================================== -->
 
-<!-- jQuery -->
-<script src="{{ asset('dashboard/plugins/jquery/jquery.min.js') }}"></script>
+<script
+    src="{{ asset('dashboard/plugins/jquery/jquery.min.js') }}"
+></script>
 
-<!-- Bootstrap -->
-<script src="{{ asset('dashboard/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-<!-- AdminLTE -->
-<script src="{{ asset('dashboard/dist/js/adminlte.min.js') }}"></script>
+<script
+    src="{{ asset('dashboard/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"
+></script>
+
+
+<script
+    src="{{ asset('dashboard/dist/js/adminlte.min.js') }}"
+></script>
+
 
 @stack('scripts')
 
-    <style>
-    html,
-    body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-    }
-
-    .wrapper {
-        width: 100%;
-        margin: 0;
-        padding: 0;
-    }
-
-    .main-header {
-        margin-left: 0 !important;
-    }
-
-    .content-wrapper {
-        margin-left: 0 !important;
-        width: 100%;
-    }
-
-    .main-footer {
-        margin-left: 0 !important;
-    }
-
-    .content-wrapper > .content {
-        padding: 0;
-    }
-
-    .content-wrapper .container,
-    .main-header .container,
-    .main-footer .container {
-        width: 100%;
-        max-width: 1140px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    /*  */
-
-    .user-dropdown { position: relative; }
-     /* Remove default arrow */ 
-     .user-dropdown summary { list-style: none; } 
-     .user-dropdown summary::-webkit-details-marker { display: none; } 
-     /* User name button */ 
-     .user-dropdown-button { display: flex; align-items: center; cursor: pointer; color: #6c757d; padding: 6px 10px !important; user-select: none; } 
-     .user-dropdown-button:hover { color: #343a40; } /* User icon */ 
-     .user-icon { width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; margin-right: 8px; border-radius: 50%; background: #007bff; color: white; font-size: 14px; } /* Dropdown */ 
-     .user-dropdown-menu { position: absolute; top: calc(100% + 5px); right: 0; z-index: 1050; min-width: 160px; padding: 5px 0; background: white; border: 1px solid #ddd; border-radius: 5px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); } /* Logout button */ 
-     .logout-button { display: flex; align-items: center; width: 100%; padding: 10px 16px; border: none; background: transparent; color: #dc3545; font-size: 14px; text-align: left; cursor: pointer; } 
-     .logout-button:hover { background: #f8f9fa; color: #c82333; }
-</style>
 
 </body>
 
 </html>
-

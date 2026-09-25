@@ -487,7 +487,7 @@
             </p>
 
             <a
-                href="{{ route('podcasts.index') }}"
+                href="{{ route('dashboard') }}"
                 class="browse-btn"
             >
                 <i class="fas fa-headphones"></i>

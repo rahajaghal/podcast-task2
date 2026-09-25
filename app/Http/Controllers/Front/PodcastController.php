@@ -13,6 +13,7 @@ use App\Models\PodcastTag;
 use App\Models\Rating;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class PodcastController extends Controller
@@ -362,27 +363,117 @@ class PodcastController extends Controller
         );
     }
     public function favouritePodcasts()
-{
-    $user = auth()->user();
+    {
+        $user = auth()->user();
 
-    $podcasts = Podcast::whereHas('favourites', function ($query) use ($user) {
-        $query->where('user_id', $user->id);
-    })
-    ->where('approved', 1)
-    ->with([
-        'channel',
-        'category',
-    ])
-    ->withAvg('ratings', 'rating')
-    ->withCount('ratings')
-    ->latest()
-    ->get();
+        $podcasts = Podcast::whereHas('favourites', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })
+        ->where('approved', 1)
+        ->with([
+            'channel',
+            'category',
+        ])
+        ->withAvg('ratings', 'rating')
+        ->withCount('ratings')
+        ->latest()
+        ->get();
 
-    return view(
-        'front.pages.podcasts.favourites',
-        compact('podcasts')
-    );
-}
+        return view(
+            'front.pages.podcasts.favourites',
+            compact('podcasts')
+        );
+    }
+public function guestIndex(Request $request)
+    {
+        if(Auth::user()){
+            return redirect()->route('dashboard');
+        }
+        /*
+        |--------------------------------------------------------------------------
+        | Get all categories
+        |--------------------------------------------------------------------------
+        */
+
+        $categories = Category::all();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Podcasts query
+        |--------------------------------------------------------------------------
+        */
+
+        $podcastsQuery = Podcast::query()
+            ->where('approved', 1)
+            ->with([
+                'channel',
+                'category',
+            ])
+            ->withAvg('ratings', 'rating')
+            ->withCount('ratings');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Search by podcast title
+        |--------------------------------------------------------------------------
+        */
+
+        if ($request->filled('search')) {
+
+            $search = $request->input('search');
+
+            $podcastsQuery->where(
+                'title',
+                'like',
+                '%' . $search . '%'
+            );
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Filter by category
+        |--------------------------------------------------------------------------
+        */
+
+        if ($request->filled('categoryId')) {
+
+            $categoryId = $request->input('categoryId');
+
+            $podcastsQuery->where(
+                'category_id',
+                $categoryId
+            );
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Get podcasts
+        |--------------------------------------------------------------------------
+        */
+
+        $podcasts = $podcastsQuery
+            ->latest()
+            ->get();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Return guest website page
+        |--------------------------------------------------------------------------
+        */
+
+        return view(
+            'front.pages.podcasts.guest-index',
+            compact(
+                'categories',
+                'podcasts'
+            )
+        );
+    }
     // public function tagPodcasts($tag_id)
     // {
     //     $podcastsIds=PodcastTag::where('tag_id',$tag_id)->pluck('podcast_id');

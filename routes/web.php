@@ -6,8 +6,14 @@ use App\Http\Controllers\Front\PodcastController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+// Route::get('/', function () {
+//     // return view('welcome');
+//     return view('layouts.guest-website');
+// });
 Route::get('/', function () {
-    return view('welcome');
+    // return view('welcome');
+    // return view('layouts.guest-website');
+    return redirect()->route('guest.index');
 });
 
 // Route::get('/user/welcome', function () {
@@ -15,11 +21,7 @@ Route::get('/', function () {
 //     return view('front.pages.categories.index');
 // })->middleware(['auth', 'verified']);
 
-Route::get('/user/dashboard', function () {
-    // return view('dashboard');
-    return view('front.pages.index');
-    
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/user/dashboard', [PodcastController::class,'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
 
@@ -50,7 +52,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/podcast/create',[PodcastController::class,'create'])->name('podcasts.create');
     Route::post('/podcast/store',[PodcastController::class,'store'])->name('podcasts.store');
     Route::delete('/delete/podcast/{podcast_id}',[PodcastController::class,'delete'])->name('podcasts.delete');
-    Route::get('/podcasts/index',[PodcastController::class,'index'])->name('podcasts.index');
+    // Route::get('/podcasts/index',[PodcastController::class,'index'])->name('podcasts.index');
+
     Route::get('/show/podcast/{id}',[PodcastController::class,'showPodcast'])->name('podcast.show');
 
     Route::post('/podcast/{id}/favorite',[PodcastController::class, 'favorite'])->name('podcast.favorite');
@@ -60,7 +63,11 @@ Route::middleware('auth')->group(function () {
 
     
 });
+
 Route::get('/show/podcasts/based/tag/{tag_id}',[PodcastController::class, 'tagPodcasts'])->name('podcasts.tag');
+Route::get('/guest/index',[PodcastController::class,'guestIndex'])->name('guest.index');
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

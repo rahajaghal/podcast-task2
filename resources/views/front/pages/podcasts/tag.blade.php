@@ -454,7 +454,7 @@
     ====================================================== --}}
 
     <a
-        href="{{ route('podcasts.index') }}"
+        href="{{ route('dashboard') }}"
         class="btn btn-sm btn-link text-primary mb-3 p-0"
     >
 

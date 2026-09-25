@@ -718,7 +718,7 @@
         <div class="search-card">
 
             <form
-                action="{{ route('podcasts.index') }}"
+                action="{{ route('dashboard') }}"
                 method="GET"
                 class="search-form"
             >
@@ -775,7 +775,7 @@
                     {{-- ALL --}}
 
                     <a
-                        href="{{ route('podcasts.index', [
+                        href="{{ route('dashboard', [
                             'search' => request('search')
                         ]) }}"
                         class="filter-button
@@ -790,7 +790,7 @@
                     @foreach($categories as $category)
 
                         <a
-                            href="{{ route('podcasts.index', [
+                            href="{{ route('dashboard', [
                                 'categoryId' => $category->id,
                                 'search' => request('search')
                             ]) }}"
