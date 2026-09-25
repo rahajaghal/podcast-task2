@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PodcastRequest;
 use App\Models\Category;
-use App\Models\CategoryUser;
 use App\Models\Channel;
 use App\Models\Favourite;
 use App\Models\Podcast;
@@ -84,11 +83,8 @@ class PodcastController extends Controller
         }
 
 
-        // Get uploaded podcast file
         $file = $request->file('podcast');
 
-
-        // Store podcast on public disk
         $path = $file->store(
             'podcasts',
             'public'
@@ -106,24 +102,18 @@ class PodcastController extends Controller
         // Automatically assign channel
         $data['channel_id'] = $channel->id;
 
-
-        // File size in MB
         $data['size'] =
             $file->getSize() / 1024 / 1024;
 
 
-        // Create podcast
         $podcast = Podcast::create($data);
 
-
-        // Attach tags
         if ($request->filled('tags')) {
 
             $podcast->tags()->attach(
                 $request->input('tags')
             );
         }
-
 
         return redirect()
             ->route('channel.index')
@@ -136,29 +126,24 @@ class PodcastController extends Controller
     {
         $podcast = Podcast::findOrFail($podcast_id);
 
-        // Get the logged-in user's channel
         $channel = Channel::where('user_id', auth()->id())->first();
 
-        // User does not have a channel
         if (!$channel) {
             return redirect()
                 ->route('channel.index')
                 ->with('error', 'You do not have a channel.');
         }
 
-        // Make sure this podcast belongs to the user's channel
         if ($podcast->channel_id != $channel->id) {
             return redirect()
                 ->route('channel.index')
                 ->with('error', 'You are not allowed to delete this podcast.');
         }
 
-        // Delete the audio file
         if ($podcast->podcast) {
             Storage::disk('public')->delete($podcast->podcast);
         }
 
-        // Delete podcast from database
         $podcast->delete();
 
         return redirect()
@@ -169,24 +154,12 @@ class PodcastController extends Controller
     {
         $user = auth()->user();
 
-        /*
-        |--------------------------------------------------------------------------
-        | Get categories selected by the logged-in user
-        |--------------------------------------------------------------------------
-        */
 
         $categories = $user->categories;
 
         $categoryIds = $categories
             ->pluck('id')
             ->toArray();
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Podcasts query
-        |--------------------------------------------------------------------------
-        */
 
         $podcastsQuery = Podcast::query()
             ->where('approved', 1)
@@ -198,11 +171,9 @@ class PodcastController extends Controller
             ->withCount('ratings');
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | Search by podcast title
-        |--------------------------------------------------------------------------
-        */
+
+    //  Search by podcast title
+       
 
         if ($request->filled('search')) {
 
@@ -216,11 +187,8 @@ class PodcastController extends Controller
         }
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | Filter by category
-        |--------------------------------------------------------------------------
-        */
+        // Filter by category
+       
 
         if ($request->filled('categoryId')) {
 
@@ -251,23 +219,9 @@ class PodcastController extends Controller
             }
         }
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | Get podcasts
-        |--------------------------------------------------------------------------
-        */
-
         $podcasts = $podcastsQuery
             ->latest()
             ->get();
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Return website page
-        |--------------------------------------------------------------------------
-        */
 
         return view(
             'front.pages.podcasts.index',
@@ -290,7 +244,6 @@ class PodcastController extends Controller
         ->where('approved', 1)
         ->firstOrFail();
 
-        // Current user's rating
         $userRating = Rating::where('user_id', auth()->id())
             ->where('podcast_id', $podcast->id)
             ->first();
@@ -389,20 +342,10 @@ public function guestIndex(Request $request)
         if(Auth::user()){
             return redirect()->route('dashboard');
         }
-        /*
-        |--------------------------------------------------------------------------
-        | Get all categories
-        |--------------------------------------------------------------------------
-        */
 
         $categories = Category::all();
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | Podcasts query
-        |--------------------------------------------------------------------------
-        */
 
         $podcastsQuery = Podcast::query()
             ->where('approved', 1)
@@ -413,12 +356,6 @@ public function guestIndex(Request $request)
             ->withAvg('ratings', 'rating')
             ->withCount('ratings');
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | Search by podcast title
-        |--------------------------------------------------------------------------
-        */
 
         if ($request->filled('search')) {
 
@@ -431,13 +368,6 @@ public function guestIndex(Request $request)
             );
         }
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | Filter by category
-        |--------------------------------------------------------------------------
-        */
-
         if ($request->filled('categoryId')) {
 
             $categoryId = $request->input('categoryId');
@@ -449,22 +379,10 @@ public function guestIndex(Request $request)
         }
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | Get podcasts
-        |--------------------------------------------------------------------------
-        */
-
         $podcasts = $podcastsQuery
             ->latest()
             ->get();
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | Return guest website page
-        |--------------------------------------------------------------------------
-        */
 
         return view(
             'front.pages.podcasts.guest-index',
@@ -474,16 +392,7 @@ public function guestIndex(Request $request)
             )
         );
     }
-    // public function tagPodcasts($tag_id)
-    // {
-    //     $podcastsIds=PodcastTag::where('tag_id',$tag_id)->pluck('podcast_id');
-    //     $podcasts=Podcast::whereIn('id',$podcastsIds)->where('approved',1)->get();
-    //     if ($podcasts){
-    //         return ApiResponse::sendResponse(200,'Podcast Retrieved Successfully',
-    //             PodcastResource::collection($podcasts));
-    //     }
-    //     return ApiResponse::sendResponse(200,'Podcast Not Retrieved Successfully', []);
-    // }
+  
 
     
 }

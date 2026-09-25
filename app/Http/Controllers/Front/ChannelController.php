@@ -33,12 +33,12 @@ class ChannelController extends Controller
         );
     }
     public function create() {
-        // Prevent user from creating more than one channel 
+
         if (Auth::user()->channel) 
             return redirect() ->route('channel.index'); 
         return view('front.pages.channels.create'); 
     }
-           /** * Store the channel. */
+
     public function store(Request $request) {
          $request->validate([
             'name' => [ 'required', 'string', 'max:255', ],
@@ -49,9 +49,9 @@ class ChannelController extends Controller
         // Prevent duplicate channels 
         if ($user->channel) { 
             return redirect() ->route('channel.index'); 
-        } // Upload image 
+        } 
         $imagePath = $request ->file('image') ->store('channels', 'public'); 
-        // Create channel 
+
         $channel = Channel::create([ 
             'user_id' => $user->id, 
             'name' => $request->name, 
@@ -60,20 +60,6 @@ class ChannelController extends Controller
         ]); 
         return redirect() ->route('channel.index') ->with( 'success', 'Your channel has been created successfully!' ); 
     }
-    // public function toggleFollowChannel($channel_id)
-    // {
-    //     $user = auth()->user();
-
-    //     if ($user->channels()->where('channel_id',$channel_id)->exists()){
-    //         $user->channels()->detach($channel_id);
-    //         $message='Channel Removed From Follow Successfully';
-    //     }else{
-    //         $user->channels()->attach($channel_id);
-    //         $message='Channel Added To Follow Successfully';
-    //     }
-    //     // return ApiResponse::sendResponse(200,$message,[]);
-    // }
-    // public function show($id) { $channel = Channel::with([ 'podcasts' => function ($query) { $query->where('approved', 1) ->latest(); } ])->findOrFail($id); $isFollowing = false; if (Auth::check()) { $isFollowing = $channel->followers() ->where('user_id', Auth::id()) ->exists(); } return view( 'front.pages.channels.show', compact( 'channel', 'isFollowing' ) ); } public function follow($id) { $channel = Channel::findOrFail($id); $channel->followers()->syncWithoutDetaching([ Auth::id() ]); return back()->with( 'success', 'You are now following this channel.' ); } public function unfollow($id) { $channel = Channel::findOrFail($id); $channel->followers()->detach( Auth::id() ); return back()->with( 'success', 'You unfollowed this channel.' ); }
 
 
 
@@ -119,7 +105,7 @@ class ChannelController extends Controller
 
         if ($isFollowing) {
 
-            // Unfollow
+
             $channel->followers()->detach(auth()->id());
 
             $message = 'You unfollowed this channel.';

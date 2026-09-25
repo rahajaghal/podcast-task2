@@ -24,19 +24,8 @@ class CategoriesController extends Controller
                 'required',
                 'max:20',
                 'min:5',
-                // 'between:5,20',
                 'unique:categories,name',
-                // function($attribute,$value,$fail){
-                //     if($value == 'bar'){
-                //     $fail('bar is not allowed');
-                //     }
-                // }
-                // new FilterRule(),
-                // 'filter',
             ],
-            // "name"=> "required",
-        
-            // 'description'=>'required',
         ]);
 
         $category = new Category();

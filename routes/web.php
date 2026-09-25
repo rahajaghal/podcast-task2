@@ -7,12 +7,8 @@ use App\Http\Controllers\Front\PodcastController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     // return view('welcome');
-//     return view('layouts.guest-website');
-// });
+
 Route::get('/', function () {
-    // return view('welcome');
     // return view('layouts.guest-website');
     return redirect()->route('guest.index');
 });
@@ -38,15 +34,11 @@ Route::middleware('auth')->group(function () {
     [ChannelController::class,'userChannel']
     )->name('channel.index');
 
-    // Route::get('/follow/{id}',[ChannelController::class,'toggleFollowChannel'])->name('channel.follow');
     Route::get('/channel/{id}', [ChannelController::class, 'show']) ->name('channel.show'); 
-    // Route::post('/channel/{id}/follow', [ChannelController::class, 'follow']) ->name('channel.follow'); 
-    // Route::delete('/channel/{id}/unfollow', [ChannelController::class, 'unfollow']) ->name('channel.unfollow');
+
     Route::post('/channel/{id}/toggle-follow', [ChannelController::class, 'toggleFollow'])
     ->name('channel.toggleFollow');
-    // Route::get('/channel',
-    //     [ChannelController::class, 'index']
-    // )->name('channel.index');
+
 
     Route::get('/channel/create',
         [ChannelController::class, 'create']

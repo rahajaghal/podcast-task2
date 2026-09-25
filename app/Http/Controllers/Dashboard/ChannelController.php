@@ -10,54 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ChannelController extends Controller
 {
-    // public function notApproved()
-    // {
-    //     $channels=Channel::where('approved',0)->get();
-    //     if ($channels){
-    //         return ApiResponse::sendResponse(200,'channels not approved Yet Retrieved Successfully',
-    //             ChannelResource::collection($channels));
-    //     }
-    //     return ApiResponse::sendResponse(200,'channels not approved Yet Not Retrieved Successfully',[]);
-    // }
-    // public function approve($channel_id)
-    // {
-    //   DB::table('channels')->where('id',$channel_id)->update([
-    //       'approved'=>1,
-    //   ]);
-    //   $channelUser=Channel::where('id',$channel_id)->pluck('user_id');
-    //   $channelUser=$channelUser[0];
 
-    //   DB::table('users')->where('id',$channelUser)->update([
-    //         'status'=>1,
-    //   ]);
-
-    //   return ApiResponse::sendResponse(200,'Channel Approved Successfully',[]);
-    // }
-    // public function delete($channel_id)
-    // {
-    //     $oldPath=DB::table('channels')->where('id',$channel_id)->pluck('image');
-    //     $oldPath=$oldPath[0];
-    //     $oldPath= public_path(asset($oldPath));
-    //     #----------
-    //     // $oldPath = str_replace('public/', 'public_html/', $oldPath);
-
-    //     if (file_exists($oldPath)){
-    //         unlink($oldPath);
-    //     }
-    //     #------------
-
-    //     DB::table('channels')->where('id',$channel_id)->delete();
-
-    //     return ApiResponse::sendResponse(200,'Channel Deleted Successfully',[]);
-    // }
-    // public function unActiveChannels()
-    // {
-    //     $channels=Channel::where('active',0)->get();
-    //     if ($channels){
-    //         return ApiResponse::sendResponse(200,'UnActive Channels Retrieved Successfully',ChannelResource::collection($channels));
-    //     }
-    //     return ApiResponse::sendResponse(200,'UnActive Channels Not Retrieved Successfully',[]);
-    // }
     public function notApproved()
     {
         $channels = Channel::where('approved', 0)
@@ -101,11 +54,7 @@ class ChannelController extends Controller
     {
         $channel = Channel::findOrFail($channel_id);
 
-        /*
-        |--------------------------------------------------------------------------
-        | Delete channel image
-        |--------------------------------------------------------------------------
-        */
+
 
         if ($channel->image) {
 
@@ -113,11 +62,6 @@ class ChannelController extends Controller
             Storage::disk('public')->delete($channel->image);
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | Delete channel
-        |--------------------------------------------------------------------------
-        */
 
         $channel->delete();
 
@@ -127,19 +71,4 @@ class ChannelController extends Controller
     }
 
 
-    /**
-     * Display inactive channels.
-     */
-    // public function unActiveChannels()
-    // {
-    //     $channels = Channel::where('active', 0)
-    //         ->with('user')
-    //         ->latest()
-    //         ->paginate(10);
-
-    //     return view(
-    //         'dashboard.pages.channels.unactive',
-    //         compact('channels')
-    //     );
-    // }
 }
