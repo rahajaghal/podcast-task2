@@ -15,6 +15,90 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{ asset('dashboard/plugins/fontawesome-free/css/all.min.css') }}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('dashboard/dist/css/adminlte.min.css') }}">
+<style>
+    .user-panel {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .user-panel-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .user-name {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        min-width: 0;
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .user-name i {
+        font-size: 17px;
+        color: #adb5bd;
+        flex-shrink: 0;
+    }
+
+    .user-name span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .logout-form {
+        margin: 0;
+        padding: 0;
+        flex-shrink: 0;
+    }
+
+    .logout-button {
+        width: 36px !important;
+        height: 36px !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        padding: 0 !important;
+        margin: 0 !important;
+
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        border-radius: 8px !important;
+
+        background: rgba(255, 255, 255, 0.08) !important;
+        color: #ff6b6b !important;
+
+        cursor: pointer;
+        line-height: 1 !important;
+
+        transition: all 0.2s ease;
+    }
+
+    .logout-button i {
+        display: block;
+        font-size: 15px;
+        line-height: 1;
+        margin: 0 !important;
+    }
+
+    .logout-button:hover {
+        background: #dc3545 !important;
+        border-color: #dc3545 !important;
+        color: #ffffff !important;
+    }
+
+    .logout-button:hover i {
+        color: #ffffff !important;
+    }
+</style>
+
+
   @stack('styles')
 </head>
 <body class="hold-transition sidebar-mini">
@@ -28,11 +112,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">Home</a>
+        <a href="{{ route('dashboard.index') }}" class="nav-link">Home</a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
-      </li>
+      
+      
     </ul>
 
 
@@ -107,20 +190,36 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="{{route('dashboard.index')}}" class="brand-link">
       <img src="{{ asset('dashboard/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+      <span class="brand-text font-weight-light">Admin</span>
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        
-        <div class="info">
-          <a href="#" class="d-block">{{ Auth::user()->name }}</a>
-        </div>
+      <div class="user-panel mt-3 pb-3 mb-3">
+    <div class="user-panel-content">
+
+
+    <div class="user-name">
+        <i class="fas fa-user-circle"></i>
+        <span>{{ Auth::user()->name }}</span>
+    </div>
+
+    <form method="POST" action="{{ route('logout') }}" class="logout-form">
+        @csrf
+
+        <button type="submit" class="logout-button" title="Logout">
+            <i class="fas fa-sign-out-alt"></i>
+        </button>
+    </form>
+
+</div>
+
+
       </div>
+
 
       
 
@@ -190,4 +289,4 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- AdminLTE App -->
 <script src="{{ asset('dashboard/dist/js/adminlte.min.js') }}"></script>
 </body>
-</html>
+</html> 
