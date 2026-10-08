@@ -14,7 +14,7 @@ class ChannelController extends Controller
         $user = Auth::user();
 
         $channel = $user->channel;
-
+        
         $channelPodacasts = $channel
             ? $channel->podcasts()
                 ->where('approved', 1)
@@ -33,7 +33,7 @@ class ChannelController extends Controller
         );
     }
     public function create() {
-
+        
         if (Auth::user()->channel) 
             return redirect() ->route('channel.index'); 
         return view('front.pages.channels.create'); 
@@ -71,6 +71,7 @@ class ChannelController extends Controller
                     ->latest();
             }
         ])->findOrFail($id);
+
 
         $isFollowing = false;
 

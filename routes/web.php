@@ -34,15 +34,15 @@ Route::middleware('auth')->group(function () {
     [ChannelController::class,'userChannel']
     )->name('channel.index');
 
+    Route::get('/channel/create',
+        [ChannelController::class, 'create']
+    )->name('channel.create');
+
     Route::get('/channel/{id}', [ChannelController::class, 'show']) ->name('channel.show'); 
 
     Route::post('/channel/{id}/toggle-follow', [ChannelController::class, 'toggleFollow'])
     ->name('channel.toggleFollow');
-
-
-    Route::get('/channel/create',
-        [ChannelController::class, 'create']
-    )->name('channel.create');
+    
 
     Route::post('/channel/store',
         [ChannelController::class, 'store']

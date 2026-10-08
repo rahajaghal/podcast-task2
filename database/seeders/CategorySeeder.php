@@ -14,13 +14,22 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         Category::create([
-            "name"=> "science",
+            "name"=> "Science",
         ]);
         Category::create([
-            "name"=> "math",
+            "name"=> "Math",
         ]);
         Category::create([
-            "name"=> "art",
+            "name"=> "Art",
+        ]);
+        Category::create([
+            "name"=> "Islamic",
+        ]);
+        Category::create([
+            "name"=> "History",
+        ]);
+        Category::create([
+            "name"=> "Songs",
         ]);
     }
 }

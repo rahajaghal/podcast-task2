@@ -219,9 +219,13 @@ class PodcastController extends Controller
             }
         }
 
+        // $podcasts = $podcastsQuery
+        //     ->latest()
+        //     ->get();
         $podcasts = $podcastsQuery
             ->latest()
-            ->get();
+            ->paginate(8)
+            ->withQueryString();
 
         return view(
             'front.pages.podcasts.index',
@@ -337,25 +341,112 @@ class PodcastController extends Controller
             compact('podcasts')
         );
     }
-public function guestIndex(Request $request)
+// public function guestIndex(Request $request)
+//     {
+//         if(Auth::user()){
+//             return redirect()->route('dashboard');
+//         }
+
+//         $categories = Category::all();
+
+
+
+//         $podcastsQuery = Podcast::query()
+//             ->where('approved', 1)
+//             ->with([
+//                 'channel',
+//                 'category',
+//             ])
+//             ->withAvg('ratings', 'rating')
+//             ->withCount('ratings');
+
+
+//         if ($request->filled('search')) {
+
+//             $search = $request->input('search');
+
+//             $podcastsQuery->where(
+//                 'title',
+//                 'like',
+//                 '%' . $search . '%'
+//             );
+//         }
+
+//         if ($request->filled('categoryId')) {
+
+//             $categoryId = $request->input('categoryId');
+
+//             $podcastsQuery->where(
+//                 'category_id',
+//                 $categoryId
+//             );
+//         }
+
+
+//         $podcasts = $podcastsQuery
+//             ->latest()
+//             ->get();
+
+
+//         return view(
+//             'front.pages.podcasts.guest-index',
+//             compact(
+//                 'categories',
+//                 'podcasts'
+//             )
+//         );
+//     }
+  
+
+    public function guestIndex(Request $request)
     {
-        if(Auth::user()){
+        /*
+        |--------------------------------------------------------------------------
+        | Redirect authenticated users
+        |--------------------------------------------------------------------------
+        */
+
+        if (Auth::check()) {
+
             return redirect()->route('dashboard');
+
         }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Categories
+        |--------------------------------------------------------------------------
+        */
 
         $categories = Category::all();
 
 
+        /*
+        |--------------------------------------------------------------------------
+        | Podcasts Query
+        |--------------------------------------------------------------------------
+        */
 
         $podcastsQuery = Podcast::query()
+
             ->where('approved', 1)
+
             ->with([
                 'channel',
                 'category',
             ])
+
             ->withAvg('ratings', 'rating')
+
             ->withCount('ratings');
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Search
+        |--------------------------------------------------------------------------
+        */
 
         if ($request->filled('search')) {
 
@@ -366,7 +457,15 @@ public function guestIndex(Request $request)
                 'like',
                 '%' . $search . '%'
             );
+
         }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Category Filter
+        |--------------------------------------------------------------------------
+        */
 
         if ($request->filled('categoryId')) {
 
@@ -376,13 +475,30 @@ public function guestIndex(Request $request)
                 'category_id',
                 $categoryId
             );
+
         }
 
 
-        $podcasts = $podcastsQuery
-            ->latest()
-            ->get();
+        /*
+        |--------------------------------------------------------------------------
+        | Pagination
+        |--------------------------------------------------------------------------
+        */
 
+        $podcasts = $podcastsQuery
+
+            ->latest()
+
+            ->paginate(6)
+
+            ->withQueryString();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | View
+        |--------------------------------------------------------------------------
+        */
 
         return view(
             'front.pages.podcasts.guest-index',
@@ -392,7 +508,4 @@ public function guestIndex(Request $request)
             )
         );
     }
-  
-
-    
 }

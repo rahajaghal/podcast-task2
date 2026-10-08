@@ -2,677 +2,935 @@
 
 @section('title', 'Podcasts')
 
+
 @push('styles')
+
 <style>
 
-    /* =========================================================
-       PAGE
-    ========================================================= */
+/* =========================================================
+   PAGE
+========================================================= */
+
+.podcasts-page {
+    padding: 30px 0 50px;
+}
+
+.podcasts-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.page-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.header-icon {
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #eee6f6;
+    color: #5b2c83;
+
+    border-radius: 12px;
+
+    font-size: 22px;
+}
+
+.page-header h1 {
+    margin: 0;
+
+    font-size: 28px;
+    font-weight: 700;
+
+    color: #343a40;
+}
+
+.page-header p {
+    margin: 3px 0 0;
+
+    color: #888;
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.search-card {
+    background: #fff;
+
+    border-radius: 12px;
+
+    padding: 15px;
+
+    margin-bottom: 20px;
+
+    box-shadow: 0 3px 15px rgba(0, 0, 0, .06);
+}
+
+.search-form {
+    display: flex;
+    gap: 10px;
+}
+
+.search-input-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+.search-input-wrapper i {
+    position: absolute;
+
+    left: 14px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #999;
+}
+
+.search-input {
+    width: 100%;
+
+    height: 42px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 8px;
+
+    padding: 0 15px 0 40px;
+
+    outline: none;
+
+    font-size: 14px;
+
+    box-sizing: border-box;
+}
+
+.search-input:focus {
+    border-color: #8b5aa8;
+
+    box-shadow: 0 0 0 2px rgba(91, 44, 131, .08);
+}
+
+.search-button {
+    height: 42px;
+
+    padding: 0 20px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #5b2c83;
+
+    color: #fff;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+}
+
+.search-button:hover {
+    background: #482267;
+}
+
+
+/* =========================================================
+   FILTERS
+========================================================= */
+
+.filter-card {
+    background: #fff;
+
+    border-radius: 12px;
+
+    padding: 15px;
+
+    margin-bottom: 25px;
+
+    box-shadow: 0 3px 15px rgba(0, 0, 0, .06);
+}
+
+.filter-title {
+    font-size: 13px;
+
+    font-weight: 600;
+
+    color: #555;
+
+    margin-bottom: 10px;
+}
+
+.filter-buttons {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+}
+
+.filter-button {
+    display: inline-block;
+
+    padding: 6px 12px;
+
+    border-radius: 20px;
+
+    background: #f3f3f3;
+
+    color: #555;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    transition: all .15s ease;
+}
+
+.filter-button:hover {
+    background: #eee6f6;
+
+    color: #5b2c83;
+
+    text-decoration: none;
+}
+
+.filter-button.active {
+    background: #5b2c83;
+
+    color: #fff;
+}
+
+
+/* =========================================================
+   PODCASTS HEADER
+========================================================= */
+
+.podcasts-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 15px;
+}
+
+.podcasts-header h2 {
+    margin: 0;
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+    color: #343a40;
+}
+
+.podcasts-count {
+    color: #888;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   PODCAST GRID
+========================================================= */
+
+.podcasts-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fill, minmax(250px, 1fr));
+
+    gap: 18px;
+}
+
+
+/* =========================================================
+   PODCAST CARD
+========================================================= */
+
+.podcast-card {
+    display: block;
+
+    background: #fff;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    box-shadow: 0 3px 15px rgba(0, 0, 0, .07);
+
+    text-decoration: none !important;
+
+    color: inherit;
+
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease;
+}
+
+.podcast-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 7px 22px rgba(0, 0, 0, .12);
+}
+
+
+/* =========================================================
+   PODCAST IMAGE
+========================================================= */
+
+.podcast-image-wrapper {
+    position: relative;
+
+    width: 100%;
+
+    height: 165px;
+
+    overflow: hidden;
+
+    background: #f0e8f7;
+}
+
+.podcast-image {
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    transition: transform .25s ease;
+}
+
+.podcast-card:hover .podcast-image {
+    transform: scale(1.03);
+}
+
+.podcast-placeholder {
+    width: 100%;
+
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: #5b2c83;
+
+    font-size: 45px;
+}
+
+
+/* =========================================================
+   PLAY OVERLAY
+========================================================= */
+
+.podcast-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: rgba(0, 0, 0, .08);
+
+    opacity: 0;
+
+    transition: opacity .2s ease;
+}
+
+.podcast-card:hover .podcast-overlay {
+    opacity: 1;
+}
+
+.play-overlay {
+    width: 48px;
+
+    height: 48px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #5b2c83;
+
+    color: #fff;
+
+    font-size: 18px;
+
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, .2);
+}
+
+
+/* =========================================================
+   CARD BODY
+========================================================= */
+
+.podcast-body {
+    padding: 15px;
+}
+
+.podcast-title {
+    margin: 0 0 6px;
+
+    font-size: 17px;
+
+    line-height: 1.3;
+
+    font-weight: 700;
+
+    color: #343a40;
+
+    display: -webkit-box;
+
+    -webkit-line-clamp: 2;
+
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+}
+
+.podcast-channel {
+    color: #777;
+
+    font-size: 13px;
+
+    margin-bottom: 0;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+.podcast-channel i {
+    color: #5b2c83;
+
+    margin-right: 4px;
+}
+
+
+/* =========================================================
+   CATEGORY + RATING
+========================================================= */
+
+.podcast-info-row {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 8px;
+
+    margin-top: 12px;
+
+    min-width: 0;
+}
+
+
+/* =========================================================
+   CATEGORY
+========================================================= */
+
+.podcast-category {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding: 5px 9px;
+
+    border-radius: 20px;
+
+    background: #f1eafa;
+
+    color: #5b2c83;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    max-width: 52%;
+
+    flex-shrink: 1;
+}
+
+.podcast-category i {
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   RATING
+========================================================= */
+
+.podcast-rating {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 4px;
+
+    margin-left: auto;
+
+    white-space: nowrap;
+
+    flex-shrink: 0;
+}
+
+.rating-stars {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 0;
+
+    color: #f5b301;
+
+    font-size: 12px;
+
+    line-height: 1;
+}
+
+.rating-stars .empty-star {
+    color: #d9d9d9;
+}
+
+.rating-number {
+    color: #666;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+.rating-count {
+    color: #999;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   CUSTOM PAGINATION
+========================================================= */
+
+.custom-pagination {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    margin-top: 30px;
+
+    padding: 0;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PAGINATION NUMBERS
+========================================================= */
+
+.pagination-numbers {
+    display: flex;
+
+    flex-direction: row;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 5px;
+
+    margin: 0;
+
+    padding: 0;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   PREVIOUS / NEXT
+========================================================= */
+
+.pagination-button {
+    width: 34px;
+
+    height: 34px;
+
+    min-width: 34px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex: 0 0 34px;
+
+    padding: 0;
+
+    margin: 0;
+
+    border: 1px solid #e3d9eb;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #5b2c83;
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    line-height: 1;
+
+    box-sizing: border-box;
+
+    transition: all .15s ease;
+}
+
+.pagination-button:hover {
+    background: #eee6f6;
+
+    border-color: #d4c2df;
+
+    color: #5b2c83;
+
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   PAGINATION ARROWS
+========================================================= */
+
+.pagination-button i {
+    display: inline-block;
+
+    width: auto;
+
+    height: auto;
+
+    margin: 0;
+
+    padding: 0;
+
+    font-size: 10px;
+
+    line-height: 1;
+}
+
+
+/* =========================================================
+   PAGE NUMBER
+========================================================= */
+
+.pagination-number {
+    width: 34px;
+
+    height: 34px;
+
+    min-width: 34px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex: 0 0 34px;
+
+    padding: 0;
+
+    margin: 0;
+
+    border: 1px solid #e3d9eb;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #5b2c83;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    font-weight: 500;
+
+    line-height: 1;
+
+    box-sizing: border-box;
+
+    transition: all .15s ease;
+}
+
+.pagination-number:hover {
+    background: #eee6f6;
+
+    border-color: #d4c2df;
+
+    color: #5b2c83;
+
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   ACTIVE PAGE
+========================================================= */
+
+.pagination-number.active {
+    background: #5b2c83;
+
+    border-color: #5b2c83;
+
+    color: #ffffff;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   DISABLED PAGINATION
+========================================================= */
+
+.pagination-button.disabled {
+    background: #f7f7f7;
+
+    border-color: #eeeeee;
+
+    color: #bdbdbd;
+
+    cursor: default;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty-state {
+    background: #fff;
+
+    border-radius: 12px;
+
+    padding: 50px 20px;
+
+    text-align: center;
+
+    box-shadow:
+        0 3px 15px rgba(0, 0, 0, .06);
+}
+
+.empty-state i {
+    font-size: 45px;
+
+    color: #d8c9e3;
+
+    margin-bottom: 15px;
+}
+
+.empty-state h3 {
+    margin: 0 0 7px;
+
+    color: #555;
+
+    font-size: 18px;
+}
+
+.empty-state p {
+    margin: 0;
+
+    color: #999;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   NO CATEGORIES
+========================================================= */
+
+.no-categories {
+    padding: 20px;
+
+    background: #fff8e1;
+
+    border: 1px solid #ffe082;
+
+    border-radius: 10px;
+
+    color: #856404;
+
+    font-size: 14px;
+
+    margin-bottom: 20px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 768px) {
 
     .podcasts-page {
-        padding: 30px 0 50px;
+        padding: 20px 0 40px;
     }
 
     .podcasts-container {
-        max-width: 1100px;
-        margin: 0 auto;
-    }
-
-
-    /* =========================================================
-       PAGE HEADER
-    ========================================================= */
-
-    .page-header {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        margin-bottom: 25px;
-    }
-
-    .header-icon {
-        width: 50px;
-        height: 50px;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        background: #eee6f6;
-        color: #5b2c83;
-
-        border-radius: 12px;
-
-        font-size: 22px;
+        padding: 0 10px;
     }
 
     .page-header h1 {
-        margin: 0;
-
-        font-size: 28px;
-        font-weight: 700;
-
-        color: #343a40;
-    }
-
-    .page-header p {
-        margin: 3px 0 0;
-
-        color: #888;
-        font-size: 14px;
-    }
-
-
-    /* =========================================================
-       SEARCH
-    ========================================================= */
-
-    .search-card {
-        background: #fff;
-
-        border-radius: 12px;
-
-        padding: 15px;
-
-        margin-bottom: 20px;
-
-        box-shadow: 0 3px 15px rgba(0, 0, 0, .06);
+        font-size: 24px;
     }
 
     .search-form {
-        display: flex;
-
-        gap: 10px;
-    }
-
-    .search-input-wrapper {
-        position: relative;
-
-        flex: 1;
-    }
-
-    .search-input-wrapper i {
-        position: absolute;
-
-        left: 14px;
-        top: 50%;
-
-        transform: translateY(-50%);
-
-        color: #999;
-    }
-
-    .search-input {
-        width: 100%;
-
-        height: 42px;
-
-        border: 1px solid #ddd;
-
-        border-radius: 8px;
-
-        padding: 0 15px 0 40px;
-
-        outline: none;
-
-        font-size: 14px;
-    }
-
-    .search-input:focus {
-        border-color: #8b5aa8;
-
-        box-shadow: 0 0 0 2px rgba(91, 44, 131, .08);
+        flex-direction: column;
     }
 
     .search-button {
-        height: 42px;
-
-        padding: 0 20px;
-
-        border: none;
-
-        border-radius: 8px;
-
-        background: #5b2c83;
-
-        color: #fff;
-
-        font-size: 14px;
-
-        cursor: pointer;
+        width: 100%;
     }
-
-    .search-button:hover {
-        background: #482267;
-    }
-
-
-    /* =========================================================
-       FILTERS
-    ========================================================= */
-
-    .filter-card {
-        background: #fff;
-
-        border-radius: 12px;
-
-        padding: 15px;
-
-        margin-bottom: 25px;
-
-        box-shadow: 0 3px 15px rgba(0, 0, 0, .06);
-    }
-
-    .filter-title {
-        font-size: 13px;
-
-        font-weight: 600;
-
-        color: #555;
-
-        margin-bottom: 10px;
-    }
-
-    .filter-buttons {
-        display: flex;
-
-        flex-wrap: wrap;
-
-        gap: 7px;
-    }
-
-    .filter-button {
-        display: inline-block;
-
-        padding: 6px 12px;
-
-        border-radius: 20px;
-
-        background: #f3f3f3;
-
-        color: #555;
-
-        text-decoration: none;
-
-        font-size: 12px;
-
-        transition: all .15s ease;
-    }
-
-    .filter-button:hover {
-        background: #eee6f6;
-
-        color: #5b2c83;
-
-        text-decoration: none;
-    }
-
-    .filter-button.active {
-        background: #5b2c83;
-
-        color: #fff;
-    }
-
-
-    /* =========================================================
-       PODCASTS HEADER
-    ========================================================= */
-
-    .podcasts-header {
-        display: flex;
-
-        align-items: center;
-
-        justify-content: space-between;
-
-        margin-bottom: 15px;
-    }
-
-    .podcasts-header h2 {
-        margin: 0;
-
-        font-size: 20px;
-
-        font-weight: 700;
-
-        color: #343a40;
-    }
-
-    .podcasts-count {
-        color: #888;
-
-        font-size: 13px;
-    }
-
-
-    /* =========================================================
-       PODCAST GRID
-    ========================================================= */
 
     .podcasts-grid {
-        display: grid;
-
         grid-template-columns:
-            repeat(auto-fill, minmax(250px, 1fr));
+            repeat(auto-fill, minmax(220px, 1fr));
 
-        gap: 18px;
+        gap: 15px;
     }
 
+}
 
-    /* =========================================================
-       PODCAST CARD
-    ========================================================= */
 
-    .podcast-card {
-        display: block;
+/* =========================================================
+   MOBILE
+========================================================= */
 
-        background: #fff;
+@media (max-width: 480px) {
 
-        border-radius: 12px;
-
-        overflow: hidden;
-
-        box-shadow: 0 3px 15px rgba(0, 0, 0, .07);
-
-        text-decoration: none !important;
-
-        color: inherit;
-
-        transition:
-            transform .18s ease,
-            box-shadow .18s ease;
+    .podcasts-grid {
+        grid-template-columns: 1fr;
     }
-
-    .podcast-card:hover {
-        transform: translateY(-3px);
-
-        box-shadow: 0 7px 22px rgba(0, 0, 0, .12);
-    }
-
-
-    /* =========================================================
-       PODCAST IMAGE
-    ========================================================= */
 
     .podcast-image-wrapper {
-        position: relative;
-
-        width: 100%;
-
-        height: 165px;
-
-        overflow: hidden;
-
-        background: #f0e8f7;
+        height: 190px;
     }
-
-    .podcast-image {
-        width: 100%;
-
-        height: 100%;
-
-        object-fit: cover;
-
-        transition: transform .25s ease;
-    }
-
-    .podcast-card:hover .podcast-image {
-        transform: scale(1.03);
-    }
-
-    .podcast-placeholder {
-        width: 100%;
-
-        height: 100%;
-
-        display: flex;
-
-        align-items: center;
-
-        justify-content: center;
-
-        color: #5b2c83;
-
-        font-size: 45px;
-    }
-
-
-    /* =========================================================
-       PLAY OVERLAY
-    ========================================================= */
-
-    .podcast-overlay {
-        position: absolute;
-
-        inset: 0;
-
-        display: flex;
-
-        align-items: center;
-
-        justify-content: center;
-
-        background: rgba(0, 0, 0, .08);
-
-        opacity: 0;
-
-        transition: opacity .2s ease;
-    }
-
-    .podcast-card:hover .podcast-overlay {
-        opacity: 1;
-    }
-
-    .play-overlay {
-        width: 48px;
-
-        height: 48px;
-
-        display: flex;
-
-        align-items: center;
-
-        justify-content: center;
-
-        border-radius: 50%;
-
-        background: #5b2c83;
-
-        color: #fff;
-
-        font-size: 18px;
-
-        box-shadow: 0 4px 12px rgba(0, 0, 0, .2);
-    }
-
-
-    /* =========================================================
-       CARD BODY
-    ========================================================= */
-
-    .podcast-body {
-        padding: 15px;
-    }
-
-    .podcast-title {
-        margin: 0 0 6px;
-
-        font-size: 17px;
-
-        line-height: 1.3;
-
-        font-weight: 700;
-
-        color: #343a40;
-
-        display: -webkit-box;
-
-        -webkit-line-clamp: 2;
-
-        -webkit-box-orient: vertical;
-
-        overflow: hidden;
-    }
-
-    .podcast-channel {
-        color: #777;
-
-        font-size: 13px;
-
-        margin-bottom: 0;
-
-        white-space: nowrap;
-
-        overflow: hidden;
-
-        text-overflow: ellipsis;
-    }
-
-    .podcast-channel i {
-        color: #5b2c83;
-
-        margin-right: 4px;
-    }
-
-
-    /* =========================================================
-       CATEGORY + RATING ROW
-    ========================================================= */
 
     .podcast-info-row {
-        display: flex;
-
-        align-items: center;
-
-        justify-content: space-between;
-
-        gap: 8px;
-
-        margin-top: 12px;
-
-        min-width: 0;
+        gap: 5px;
     }
-
-
-    /* =========================================================
-       CATEGORY
-    ========================================================= */
 
     .podcast-category {
-        display: inline-flex;
-
-        align-items: center;
-
-        gap: 5px;
-
-        padding: 5px 9px;
-
-        border-radius: 20px;
-
-        background: #f1eafa;
-
-        color: #5b2c83;
-
-        font-size: 11px;
-
-        font-weight: 600;
-
-        white-space: nowrap;
-
-        overflow: hidden;
-
-        text-overflow: ellipsis;
-
-        max-width: 52%;
-
-        flex-shrink: 1;
-    }
-
-    .podcast-category i {
-        font-size: 10px;
-    }
-
-
-    /* =========================================================
-       RATING
-    ========================================================= */
-
-    .podcast-rating {
-        display: inline-flex;
-
-        align-items: center;
-
-        gap: 4px;
-
-        margin-left: auto;
-
-        white-space: nowrap;
-
-        flex-shrink: 0;
+        max-width: 48%;
     }
 
     .rating-stars {
-        display: inline-flex;
-
-        align-items: center;
-
-        gap: 0;
-
-        color: #f5b301;
-
-        font-size: 12px;
-
-        line-height: 1;
-    }
-
-    .rating-stars .empty-star {
-        color: #d9d9d9;
+        font-size: 11px;
     }
 
     .rating-number {
-        color: #666;
-
-        font-size: 11px;
-
-        font-weight: 700;
-    }
-
-    .rating-count {
-        color: #999;
-
         font-size: 10px;
     }
 
-
-    /* =========================================================
-       EMPTY STATE
-    ========================================================= */
-
-    .empty-state {
-        background: #fff;
-
-        border-radius: 12px;
-
-        padding: 50px 20px;
-
-        text-align: center;
-
-        box-shadow: 0 3px 15px rgba(0, 0, 0, .06);
-    }
-
-    .empty-state i {
-        font-size: 45px;
-
-        color: #d8c9e3;
-
-        margin-bottom: 15px;
-    }
-
-    .empty-state h3 {
-        margin: 0 0 7px;
-
-        color: #555;
-
-        font-size: 18px;
-    }
-
-    .empty-state p {
-        margin: 0;
-
-        color: #999;
-
-        font-size: 13px;
+    .rating-count {
+        font-size: 9px;
     }
 
 
-    /* =========================================================
-       NO CATEGORIES
-    ========================================================= */
+    /* PAGINATION */
 
-    .no-categories {
-        padding: 20px;
-
-        background: #fff8e1;
-
-        border: 1px solid #ffe082;
-
-        border-radius: 10px;
-
-        color: #856404;
-
-        font-size: 14px;
-
-        margin-bottom: 20px;
+    .custom-pagination {
+        gap: 5px;
     }
 
-
-    /* =========================================================
-       MOBILE
-    ========================================================= */
-
-    @media (max-width: 768px) {
-
-        .podcasts-page {
-            padding: 20px 0 40px;
-        }
-
-        .podcasts-container {
-            padding: 0 10px;
-        }
-
-        .page-header h1 {
-            font-size: 24px;
-        }
-
-        .search-form {
-            flex-direction: column;
-        }
-
-        .search-button {
-            width: 100%;
-        }
-
-        .podcasts-grid {
-            grid-template-columns:
-                repeat(auto-fill, minmax(220px, 1fr));
-
-            gap: 15px;
-        }
+    .pagination-numbers {
+        gap: 3px;
     }
 
+    .pagination-button {
+        width: 31px;
 
-    @media (max-width: 480px) {
+        height: 31px;
 
-        .podcasts-grid {
-            grid-template-columns: 1fr;
-        }
+        min-width: 31px;
 
-        .podcast-image-wrapper {
-            height: 190px;
-        }
-
-        .podcast-info-row {
-            gap: 5px;
-        }
-
-        .podcast-category {
-            max-width: 48%;
-        }
-
-        .rating-stars {
-            font-size: 11px;
-        }
-
-        .rating-number {
-            font-size: 10px;
-        }
-
-        .rating-count {
-            font-size: 9px;
-        }
+        flex-basis: 31px;
     }
+
+    .pagination-number {
+        width: 31px;
+
+        height: 31px;
+
+        min-width: 31px;
+
+        flex-basis: 31px;
+
+        font-size: 11px;
+    }
+
+    .pagination-button i {
+        font-size: 9px;
+    }
+
+}
 
 </style>
+
 @endpush
 
 
@@ -710,7 +968,6 @@
         </div>
 
 
-
         {{-- =====================================================
              SEARCH
         ====================================================== --}}
@@ -742,14 +999,16 @@
                     type="submit"
                     class="search-button"
                 >
+
                     <i class="fas fa-search mr-1"></i>
+
                     Search
+
                 </button>
 
             </form>
 
         </div>
-
 
 
         {{-- =====================================================
@@ -781,7 +1040,9 @@
                         class="filter-button
                         {{ !request('categoryId') ? 'active' : '' }}"
                     >
+
                         All
+
                     </a>
 
 
@@ -799,10 +1060,13 @@
                                 ? 'active'
                                 : '' }}"
                         >
+
                             {{ $category->name }}
+
                         </a>
 
                     @endforeach
+
 
                 </div>
 
@@ -821,7 +1085,6 @@
         @endif
 
 
-
         {{-- =====================================================
              PODCASTS HEADER
         ====================================================== --}}
@@ -832,16 +1095,19 @@
                 Latest Podcasts
             </h2>
 
+
             <span class="podcasts-count">
 
-                {{ $podcasts->count() }}
+                {{ $podcasts->total() }}
 
-                {{ Str::plural('podcast', $podcasts->count()) }}
+                {{ Str::plural(
+                    'podcast',
+                    $podcasts->total()
+                ) }}
 
             </span>
 
         </div>
-
 
 
         {{-- =====================================================
@@ -858,14 +1124,17 @@
 
 
                     <a
-                        href="{{ route('podcast.show', $podcast->id) }}"
+                        href="{{ route(
+                            'podcast.show',
+                            $podcast->id
+                        ) }}"
                         class="podcast-card"
                     >
 
 
-                        {{-- =====================================
+                        {{-- =================================================
                              IMAGE
-                        ====================================== --}}
+                        ================================================== --}}
 
                         <div class="podcast-image-wrapper">
 
@@ -911,10 +1180,9 @@
                         </div>
 
 
-
-                        {{-- =====================================
+                        {{-- =================================================
                              CARD BODY
-                        ====================================== --}}
+                        ================================================== --}}
 
                         <div class="podcast-body">
 
@@ -943,10 +1211,9 @@
                             @endif
 
 
-
-                            {{-- =================================
+                            {{-- =================================================
                                  CATEGORY + RATING
-                            ================================== --}}
+                            ================================================== --}}
 
                             <div class="podcast-info-row">
 
@@ -976,12 +1243,10 @@
 
                                         <div class="rating-stars">
 
-
                                             @for($i = 1; $i <= 5; $i++)
 
                                                 @if(
-                                                    $podcast->ratings_avg_rating
-                                                    >= $i
+                                                    $podcast->ratings_avg_rating >= $i
                                                 )
 
                                                     <span>
@@ -990,16 +1255,13 @@
 
                                                 @else
 
-                                                    <span
-                                                        class="empty-star"
-                                                    >
+                                                    <span class="empty-star">
                                                         ★
                                                     </span>
 
                                                 @endif
 
                                             @endfor
-
 
                                         </div>
 
@@ -1055,7 +1317,6 @@
 
                                         </span>
 
-
                                     @endif
 
 
@@ -1070,18 +1331,119 @@
 
                     </a>
 
+
                 @endforeach
 
 
             </div>
 
 
+            {{-- =====================================================
+                 CUSTOM PAGINATION
+            ====================================================== --}}
+
+            @if($podcasts->hasPages())
+
+                <div class="custom-pagination">
+
+
+                    {{-- PREVIOUS BUTTON --}}
+
+                    @if($podcasts->onFirstPage())
+
+                        <span class="pagination-button disabled">
+
+                            <i class="fas fa-chevron-left"></i>
+
+                        </span>
+
+                    @else
+
+                        <a
+                            href="{{ $podcasts->previousPageUrl() }}"
+                            class="pagination-button"
+                            aria-label="Previous page"
+                        >
+
+                            <i class="fas fa-chevron-left"></i>
+
+                        </a>
+
+                    @endif
+
+
+                    {{-- PAGE NUMBERS --}}
+
+                    <div class="pagination-numbers">
+
+                        @for(
+                            $page = 1;
+                            $page <= $podcasts->lastPage();
+                            $page++
+                        )
+
+                            @if($page == $podcasts->currentPage())
+
+                                <span class="pagination-number active">
+
+                                    {{ $page }}
+
+                                </span>
+
+                            @else
+
+                                <a
+                                    href="{{ $podcasts->url($page) }}"
+                                    class="pagination-number"
+                                >
+
+                                    {{ $page }}
+
+                                </a>
+
+                            @endif
+
+                        @endfor
+
+                    </div>
+
+
+                    {{-- NEXT BUTTON --}}
+
+                    @if($podcasts->hasMorePages())
+
+                        <a
+                            href="{{ $podcasts->nextPageUrl() }}"
+                            class="pagination-button"
+                            aria-label="Next page"
+                        >
+
+                            <i class="fas fa-chevron-right"></i>
+
+                        </a>
+
+                    @else
+
+                        <span class="pagination-button disabled">
+
+                            <i class="fas fa-chevron-right"></i>
+
+                        </span>
+
+                    @endif
+
+
+                </div>
+
+            @endif
+
+
         @else
 
 
-            {{-- =================================================
+            {{-- =====================================================
                  EMPTY STATE
-            ================================================== --}}
+            ====================================================== --}}
 
             <div class="empty-state">
 
